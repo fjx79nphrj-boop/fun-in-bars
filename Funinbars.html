@@ -1,0 +1,2429 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ff0080">
+    <meta name="description" content="Social games, challenges, and fun activities for nights out">
+    <link rel="manifest" href="manifest.json">
+    <title>Fun in Bars</title>
+
+```
+<!-- html2canvas for screenshot sharing -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZF0VKJYB21"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZF0VKJYB21');
+</script>
+
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #0a0e27 0%, #1a0f2e 50%, #0a0e27 100%);
+        color: white;
+        min-height: 100vh;
+        padding: 20px;
+    }
+    .container { max-width: 600px; margin: 0 auto; }
+    h1 { 
+        text-align: center; 
+        font-size: 2.5em; 
+        color: #ff0080; 
+        margin-bottom: 10px;
+        font-weight: 900;
+    }
+    .tagline { text-align: center; color: #00ffff; font-weight: 600; margin-bottom: 30px; }
+    
+    .phases {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+        overflow-x: auto;
+    }
+    .phase-btn {
+        flex: 1;
+        min-width: 130px;
+        padding: 12px;
+        background: rgba(0, 255, 255, 0.1);
+        border: 2px solid #00ffff;
+        color: #00ffff;
+        border-radius: 15px;
+        font-weight: 700;
+        font-size: 0.85em;
+        cursor: pointer;
+        text-transform: uppercase;
+        transition: all 0.3s;
+    }
+    .phase-btn:hover { background: rgba(0, 255, 255, 0.2); transform: translateY(-3px); }
+    .phase-btn.active { background: #00ffff; color: #0a0e27; }
+    
+    .phase-content { display: none; }
+    .phase-content.active { display: block; }
+    
+    .phase-title {
+        font-size: 1.8em;
+        text-align: center;
+        color: #ffff00;
+        margin-bottom: 20px;
+        font-weight: 900;
+    }
+    
+    .card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(255, 0, 128, 0.3);
+        border-radius: 20px;
+        padding: 25px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    .card:hover { 
+        border-color: #ff0080;
+        transform: translateY(-5px);
+    }
+    .card.expanded { border-color: #ff0080; }
+    
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .card-title { font-size: 1.4em; font-weight: 700; color: #ff0080; }
+    .expand-icon { font-size: 1.5em; color: #00ffff; transition: transform 0.3s; }
+    .card.expanded .expand-icon { transform: rotate(180deg); }
+    
+    .card-content { display: none; margin-top: 20px; }
+    .card.expanded .card-content { display: block; }
+    
+    .item {
+        background: rgba(0, 255, 255, 0.1);
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 10px;
+        border-left: 4px solid #00ffff;
+    }
+    
+    .list-item {
+        background: rgba(255, 0, 128, 0.1);
+        padding: 20px;
+        margin: 15px 0;
+        border-radius: 15px;
+        border-left: 5px solid #ff0080;
+    }
+    .list-title { font-size: 1.2em; font-weight: 700; color: #00ffff; margin-bottom: 8px; }
+    
+    .btn {
+        background: linear-gradient(135deg, #ff0080, #b000ff);
+        border: none;
+        padding: 15px 30px;
+        border-radius: 30px;
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 10px;
+        text-transform: uppercase;
+        font-size: 1em;
+    }
+    .btn:hover { transform: scale(1.05); }
+    
+    .counter {
+        text-align: center;
+        font-size: 4em;
+        font-weight: 700;
+        color: #ffff00;
+        margin: 30px 0;
+    }
+    
+    .widget-box {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 30px;
+        border-radius: 20px;
+        border: 2px solid #ffff00;
+        margin: 20px 0;
+        position: relative;
+    }
+    
+    .widget-input {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid #00ffff;
+        border-radius: 10px;
+        padding: 12px;
+        color: white;
+        font-size: 1.1em;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .bar-chart {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        height: 350px;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        border-radius: 15px;
+        border: 2px solid rgba(255, 0, 128, 0.3);
+        position: relative;
+    }
+    
+    .bar {
+        width: 100px;
+        background: linear-gradient(180deg, #ff0080, #b000ff);
+        border-radius: 10px 10px 0 0;
+        transition: height 0.1s;
+        position: relative;
+        height: 50%;
+    }
+    
+    .bar-pct {
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 1.5em;
+        font-weight: 700;
+        color: #00ffff;
+    }
+    
+    .zone {
+        position: absolute;
+        bottom: 0;
+        width: 30%;
+        height: 80px;
+        z-index: 10;
+        cursor: pointer;
+    }
+    .zone-left { left: 0; }
+    .zone-right { right: 0; }
+    
+    .radar-container {
+        position: relative;
+        width: 280px;
+        height: 280px;
+        margin: 20px auto;
+        background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+        border-radius: 50%;
+        border: 3px solid #00ffff;
+        overflow: hidden;
+        cursor: crosshair;
+    }
+    
+    .radar-sweep {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 50%;
+        height: 2px;
+        background: linear-gradient(90deg, #00ffff, transparent);
+        transform-origin: left center;
+        animation: sweep 3s linear infinite;
+    }
+    
+    @keyframes sweep {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .radar-grid {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+    }
+    
+    .radar-circle {
+        width: 100%;
+        height: 100%;
+        border: 1px solid rgba(0, 255, 255, 0.2);
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    .radar-dot {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        background: #ff0080;
+        border-radius: 50%;
+        box-shadow: 0 0 20px #ff0080;
+        animation: radarPulse 2s ease-in-out infinite;
+        transform: translate(-50%, -50%);
+        z-index: 5;
+        left: 50%;
+        top: 50%;
+    }
+    
+    @keyframes radarPulse {
+        0% { 
+            transform: translate(-50%, -50%) scale(1); 
+            opacity: 1;
+            box-shadow: 0 0 20px #ff0080;
+        }
+        50% { 
+            transform: translate(-50%, -50%) scale(2); 
+            opacity: 0.3;
+            box-shadow: 0 0 40px #ff0080;
+        }
+        100% { 
+            transform: translate(-50%, -50%) scale(1); 
+            opacity: 1;
+            box-shadow: 0 0 20px #ff0080;
+        }
+    }
+    
+    /* Wheel of Fortune Styles */
+    .wheel-container {
+        position: relative;
+        width: 320px;
+        height: 320px;
+        margin: 30px auto;
+    }
+    
+    .wheel {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 6px solid #ffff00;
+        position: relative;
+        transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+        background: conic-gradient(
+            from 0deg,
+            #FFD700 0deg 120deg,
+            #FF1493 120deg 240deg,
+            #8B00FF 240deg 360deg
+        );
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+    }
+    
+    .wheel-emoji {
+        position: absolute;
+        font-size: 3em;
+        transform: translate(-50%, -50%);
+        filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+        pointer-events: none;
+    }
+    
+    .emoji-laugh {
+        top: 25%;
+        left: 75%;
+    }
+    
+    .emoji-heart {
+        top: 75%;
+        left: 50%;
+    }
+    
+    .emoji-scary {
+        top: 25%;
+        left: 25%;
+    }
+    
+    .wheel-pointer {
+        position: absolute;
+        top: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-top: 30px solid #ff0080;
+        z-index: 10;
+        filter: drop-shadow(0 0 15px #ff0080);
+    }
+    
+    .wheel-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 70px;
+        height: 70px;
+        background: #0a0e27;
+        border-radius: 50%;
+        border: 4px solid #ffff00;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2em;
+        z-index: 5;
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    }
+    
+    .challenge-result {
+        background: rgba(255, 0, 128, 0.2);
+        border: 2px solid #ff0080;
+        border-radius: 15px;
+        padding: 25px;
+        margin: 20px 0;
+        text-align: center;
+        font-size: 1.2em;
+        font-weight: 700;
+        color: #00ffff;
+        min-height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .legend {
+        display: flex;
+        justify-content: space-around;
+        margin: 20px 0;
+        padding: 15px;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+    }
+    
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.9em;
+    }
+    
+    .legend-color {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 2px solid white;
+    }
+    
+    .color-laugh { background: #FFD700; }
+    .color-heart { background: #FF1493; }
+    .color-scary { background: #8B00FF; }
+    
+    .info-icon {
+        position: relative;
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background: rgba(0, 255, 255, 0.3);
+        border: 2px solid #00ffff;
+        border-radius: 50%;
+        color: #00ffff;
+        font-size: 14px;
+        font-weight: 700;
+        text-align: center;
+        line-height: 20px;
+        cursor: help;
+        margin-left: 10px;
+        vertical-align: middle;
+    }
+    
+    .info-icon:hover {
+        background: rgba(0, 255, 255, 0.5);
+    }
+    
+    .info-tooltip {
+        visibility: hidden;
+        position: absolute;
+        z-index: 1000;
+        background: rgba(0, 0, 0, 0.95);
+        color: #00ffff;
+        padding: 15px 20px;
+        border-radius: 10px;
+        border: 2px solid #00ffff;
+        font-size: 14px;
+        font-weight: 400;
+        width: 280px;
+        top: 35px;
+        right: 0;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    }
+    
+    .info-icon:hover .info-tooltip {
+        visibility: visible;
+    }
+    
+    .info-icon.active .info-tooltip {
+        visibility: visible;
+    }
+    
+    .chart-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @keyframes scaleIn {
+        from {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+    
+    @media (max-width: 600px) {
+        .radar-container { width: 240px; height: 240px; }
+        .wheel-container { width: 280px; height: 280px; }
+        .wheel-emoji { font-size: 2.5em; }
+    }
+</style>
+```
+
+</head>
+<body>
+    <!-- Install Popup Modal -->
+    <div id="installPopup" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); z-index: 10000; align-items: center; justify-content: center; animation: fadeIn 0.3s ease;">
+        <div style="background: linear-gradient(135deg, #1a0f2e, #0a0e27); border: 2px solid #ff0080; border-radius: 20px; padding: 30px; max-width: 400px; margin: 20px; box-shadow: 0 10px 40px rgba(255, 0, 128, 0.3); animation: scaleIn 0.3s ease;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 4em; margin-bottom: 10px;">📱</div>
+                <h2 style="color: #00ffff; margin: 0 0 10px 0; font-size: 1.8em;">Enjoying the app?</h2>
+                <p style="color: #ffff00; margin: 0; font-size: 1.1em;">Add to home screen for quick access next time!</p>
+            </div>
+            <div style="background: rgba(0, 255, 255, 0.1); border: 1px solid #00ffff; border-radius: 10px; padding: 15px; margin-bottom: 20px;">
+                <div style="color: white; font-size: 0.95em; line-height: 1.6;">
+                    Ã¢ÂÂ Launch instantly from home screen<br>
+                    Ã¢ÂÂ Works offline after first visit<br>
+                    Ã¢ÂÂ No app store needed
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button onclick="installFromPopup()" style="flex: 1; background: #ff0080; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 1.1em; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 0, 128, 0.4);">Add Now</button>
+                <button onclick="dismissPopup()" style="flex: 1; background: rgba(255, 255, 255, 0.1); color: white; border: 2px solid #00ffff; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 1.1em; cursor: pointer;">Not Now</button>
+            </div>
+        </div>
+    </div>
+
+```
+<div class="container" style="padding-top: 20px;">
+    <h1>FUN IN BARS</h1>
+    
+    <!-- RETENTION DASHBOARD (Always visible at top) -->
+    <div id="retentionDashboard" style="max-width: 600px; margin: 20px auto 30px;">
+        
+        <!-- Streak Display -->
+        <div style="background: linear-gradient(135deg, #ff0080, #ff6b9d); border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(255, 0, 128, 0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="color: #ffff00; font-size: 0.9em; font-weight: bold;">YOUR STREAK</div>
+                    <div style="color: white; font-size: 2.5em; font-weight: 900; line-height: 1;" id="streakCount">0</div>
+                    <div style="color: rgba(255, 255, 255, 0.8); font-size: 0.85em;" id="streakMessage">Start your streak!</div>
+                </div>
+                <div style="font-size: 4em; line-height: 1;">🔥</div>
+            </div>
+        </div>
+        
+        <!-- Daily Dare -->
+        <div style="background: rgba(255, 215, 0, 0.15); border: 2px solid #ffd700; border-radius: 15px; padding: 20px; margin-bottom: 15px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                <span style="font-size: 2em;">🎯</span>
+                <div>
+                    <div style="color: #ffd700; font-weight: bold; font-size: 1.1em;">TODAY'S DARE</div>
+                    <div style="color: #ffff00; font-size: 0.85em;">Complete for 2X points!</div>
+                </div>
+            </div>
+            <div style="color: white; font-size: 1.1em; line-height: 1.5; margin: 15px 0;" id="dailyDareText">Loading...</div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn" onclick="acceptDailyDare()" id="acceptDareBtn" style="flex: 1; background: #00cc00;">Ã¢ÂÂ ACCEPT DARE</button>
+                <div style="color: #00ffff; font-size: 0.9em; display: flex; align-items: center;" id="dareStatus"></div>
+            </div>
+        </div>
+        
+        <!-- Opener of the Week -->
+        <div style="background: rgba(0, 255, 255, 0.15); border: 2px solid #00ffff; border-radius: 15px; padding: 20px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                <span style="font-size: 2em;">Ã¢Â­Â</span>
+                <div>
+                    <div style="color: #00ffff; font-weight: bold; font-size: 1.1em;">OPENER OF THE WEEK</div>
+                    <div style="color: rgba(0, 255, 255, 0.7); font-size: 0.85em;">Resets every Monday</div>
+                </div>
+            </div>
+            <div style="color: white; font-size: 1.1em; line-height: 1.5; margin: 15px 0;" id="weeklyOpenerText">Loading...</div>
+            <button class="btn" onclick="useWeeklyOpener()" style="width: 100%; background: #ff0080;">Ã°ÂÂÂ¬ USE THIS OPENER</button>
+        </div>
+    </div>
+
+    <div class="phases">
+        <button class="phase-btn active" onclick="var btns=document.querySelectorAll('.phase-btn'); for(var i=0;i<btns.length;i++)btns[i].classList.remove('active'); this.classList.add('active'); var phases=document.querySelectorAll('.phase-content'); for(var i=0;i<phases.length;i++)phases[i].classList.remove('active'); document.getElementById('pre-party').classList.add('active');" style="display: none;">🏠 Pre-Party</button>
+        <button class="phase-btn" onclick="var btns=document.querySelectorAll('.phase-btn'); for(var i=0;i<btns.length;i++)btns[i].classList.remove('active'); this.classList.add('active'); var phases=document.querySelectorAll('.phase-content'); for(var i=0;i<phases.length;i++)phases[i].classList.remove('active'); document.getElementById('on-the-way').classList.add('active');" style="display: none;">🚕 On the Way</button>
+        <button class="phase-btn" onclick="var btns=document.querySelectorAll('.phase-btn'); for(var i=0;i<btns.length;i++)btns[i].classList.remove('active'); this.classList.add('active'); var phases=document.querySelectorAll('.phase-content'); for(var i=0;i<phases.length;i++)phases[i].classList.remove('active'); document.getElementById('at-the-bar').classList.add('active');" style="display: none;">🍻 At the Bar</button>
+        <button class="phase-btn" onclick="var btns=document.querySelectorAll('.phase-btn'); for(var i=0;i<btns.length;i++)btns[i].classList.remove('active'); this.classList.add('active'); var phases=document.querySelectorAll('.phase-content'); for(var i=0;i<phases.length;i++)phases[i].classList.remove('active'); document.getElementById('bingo').classList.add('active'); if(!window.bingoInitialized) initBingo();" style="display: none;">🎯 Bingo</button>
+        <button class="phase-btn active" onclick="var btns=document.querySelectorAll('.phase-btn'); for(var i=0;i<btns.length;i++)btns[i].classList.remove('active'); this.classList.add('active'); var phases=document.querySelectorAll('.phase-content'); for(var i=0;i<phases.length;i++)phases[i].classList.remove('active'); document.getElementById('roulette').classList.add('active'); resetRouletteToStart();">🎱 Roulette</button>
+        <button class="phase-btn" onclick="var btns=document.querySelectorAll('.phase-btn'); for(var i=0;i<btns.length;i++)btns[i].classList.remove('active'); this.classList.add('active'); var phases=document.querySelectorAll('.phase-content'); for(var i=0;i<phases.length;i++)phases[i].classList.remove('active'); document.getElementById('challenge-wheel').classList.add('active');">🎯 Challenge</button>
+        <button class="phase-btn" onclick="var btns=document.querySelectorAll('.phase-btn'); for(var i=0;i<btns.length;i++)btns[i].classList.remove('active'); this.classList.add('active'); var phases=document.querySelectorAll('.phase-content'); for(var i=0;i<phases.length;i++)phases[i].classList.remove('active'); document.getElementById('compete').classList.add('active'); resetCompeteMode();">🏆 Compete</button>
+        <button class="phase-btn" onclick="var btns=document.querySelectorAll('.phase-btn'); for(var i=0;i<btns.length;i++)btns[i].classList.remove('active'); this.classList.add('active'); var phases=document.querySelectorAll('.phase-content'); for(var i=0;i<phases.length;i++)phases[i].classList.remove('active'); document.getElementById('radar-chart').classList.add('active');">📡 Radar</button>
+        <button class="phase-btn" onclick="var btns=document.querySelectorAll('.phase-btn'); for(var i=0;i<btns.length;i++)btns[i].classList.remove('active'); this.classList.add('active'); var phases=document.querySelectorAll('.phase-content'); for(var i=0;i<phases.length;i++)phases[i].classList.remove('active'); document.getElementById('boldness').classList.add('active');">📊 Meter</button>
+        <button class="phase-btn" onclick="var btns=document.querySelectorAll('.phase-btn'); for(var i=0;i<btns.length;i++)btns[i].classList.remove('active'); this.classList.add('active'); var phases=document.querySelectorAll('.phase-content'); for(var i=0;i<phases.length;i++)phases[i].classList.remove('active'); document.getElementById('going-home').classList.add('active');" style="display: none;">🌙 Going Home</button>
+    </div>
+
+    <!-- PRE-PARTY PHASE -->
+    <div class="phase-content" id="pre-party">
+        <div class="phase-title">🏠 PRE-PARTY</div>
+
+        <div class="card" onclick="this.classList.toggle('expanded')">
+            <div class="card-header">
+                <div class="card-title">🍺 Drinking Games</div>
+                <div class="expand-icon">Ã¢ÂÂ¼</div>
+            </div>
+            <div class="card-content">
+                <div class="item"><strong>Never Have I Ever</strong> - Take turns saying "Never have I ever..." and drink if you've done it!</div>
+                <div class="item"><strong>Flip Cup</strong> - Race to drink and flip your cup upside down. First team to finish wins!</div>
+                <div class="item"><strong>Most Likely To</strong> - Someone asks "Who's most likely to...?" Everyone points. Person with most fingers drinks!</div>
+                <div class="item"><strong>Paranoia</strong> - Whisper a question about someone. They drink and can ask who it's about if they drink again!</div>
+                <div class="item"><strong>Truth or Drink</strong> - Ask anything. They either answer truthfully or take a drink!</div>
+            </div>
+        </div>
+
+        <div class="card" onclick="this.classList.toggle('expanded')">
+            <div class="card-header">
+                <div class="card-title">🎤 Party Songs to Sing</div>
+                <div class="expand-icon">Ã¢ÂÂ¼</div>
+            </div>
+            <div class="card-content">
+                <div class="list-item">
+                    <div class="list-title">🎵 Mr. Brightside - The Killers</div>
+                    Essential sing-along anthem!
+                </div>
+                <div class="list-item">
+                    <div class="list-title">🎵 Don't Stop Believin' - Journey</div>
+                    Everyone knows the chorus!
+                </div>
+                <div class="list-item">
+                    <div class="list-title">🎵 Sweet Caroline - Neil Diamond</div>
+                    "BAH BAH BAH!" - Gets everyone involved
+                </div>
+                <div class="list-item">
+                    <div class="list-title">🎵 Livin' on a Prayer - Bon Jovi</div>
+                    Perfect for the pre-game hype!
+                </div>
+                <div class="list-item">
+                    <div class="list-title">🎵 Wannabe - Spice Girls</div>
+                    Fast-paced fun for everyone
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ON THE WAY PHASE -->
+    <div class="phase-content" id="on-the-way">
+        <div class="phase-title">🚕 ON THE WAY</div>
+
+        <div class="card" onclick="this.classList.toggle('expanded')">
+            <div class="card-header">
+                <div class="card-title">🚗 Yellow Car Spotting</div>
+                <div class="expand-icon">Ã¢ÂÂ¼</div>
+            </div>
+            <div class="card-content">
+                <p style="text-align: center; margin-bottom: 20px; color: #00ffff;">Spot yellow cars and tap to score! First to 10 wins! 🏆</p>
+                <div class="counter" id="carCount">0</div>
+                <button class="btn" onclick="event.stopPropagation(); var c=document.getElementById('carCount'); c.textContent=parseInt(c.textContent)+1;">SPOT YELLOW CAR! 🚕</button>
+                <button class="btn" onclick="event.stopPropagation(); document.getElementById('carCount').textContent='0';" style="background: rgba(255,255,255,0.1);">Reset Counter</button>
+            </div>
+        </div>
+
+        <div class="card" onclick="this.classList.toggle('expanded')">
+            <div class="card-header">
+                <div class="card-title">Ã°ÂÂÂ® Taxi Games</div>
+                <div class="expand-icon">Ã¢ÂÂ¼</div>
+            </div>
+            <div class="card-content">
+                <div class="item"><strong>License Plate Game</strong> - Find letters A-Z in order on license plates!</div>
+                <div class="item"><strong>Song Lyrics Battle</strong> - Someone starts a song, next person continues. First to mess up loses!</div>
+                <div class="item"><strong>20 Questions</strong> - Think of something, others get 20 yes/no questions to guess it!</div>
+                <div class="item"><strong>Red Car vs Blue Car</strong> - Split into teams. Count your team's color. Winner buys first round!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AT THE BAR PHASE -->
+    <div class="phase-content" id="at-the-bar">
+        <div class="phase-title">Ã°ÂÂÂ» AT THE BAR</div>
+
+        <div class="card" onclick="this.classList.toggle('expanded')">
+            <div class="card-header">
+                <div class="card-title">Ã¢ÂÂ¨ Simple Magic Tricks</div>
+                <div class="expand-icon">Ã¢ÂÂ¼</div>
+            </div>
+            <div class="card-content">
+                <div class="list-item">
+                    <div class="list-title">Ã°ÂÂÂ© The Disappearing Coin</div>
+                    Palm a coin while pretending to transfer it to your other hand. Open empty hand dramatically!
+                </div>
+                <div class="list-item">
+                    <div class="list-title">Ã°ÂÂÂ´ Pick a Card Mind Reading</div>
+                    Let them pick a card, have them show others. Glimpse bottom card when they return it, then "read their mind"!
+                </div>
+                <div class="list-item">
+                    <div class="list-title">Ã°ÂÂªÂ The Floating Bill</div>
+                    Hold a bill between your thumb and pinky while hiding your hand behind it. It looks like it's floating!
+                </div>
+                <div class="list-item">
+                    <div class="list-title">Ã°ÂÂÂ² Predict Their Number</div>
+                    Ask them to pick 1-10, double it, add 8, divide by 2, subtract original. Answer is always 4! Write it down first.
+                </div>
+            </div>
+        </div>
+
+        <div class="card" onclick="this.classList.toggle('expanded')">
+            <div class="card-header">
+                <div class="card-title">Ã°ÂÂÂ¬ Opening Lines</div>
+                <div class="expand-icon">Ã¢ÂÂ¼</div>
+            </div>
+            <div class="card-content">
+                <div class="item">"Hey! My friends and I are debating: Is a hot dog a sandwich? We need a tiebreaker!" Ã°ÂÂÂ­</div>
+                <div class="item">"Quick question - if you could only eat one food for the rest of your life, what would it be?" Ã°ÂÂÂ</div>
+                <div class="item">"We're doing truths or dares. Want to join? You look brave enough!" 🎯</div>
+                <div class="item">"I lost a bet and have to get 5 people's favorite songs. What's yours?" 🎵</div>
+                <div class="item">"You look like someone who knows where the best [food] in this city is. Am I right?" Ã°ÂÂÂ</div>
+            </div>
+        </div>
+
+        <div class="card" onclick="this.classList.toggle('expanded')">
+            <div class="card-header">
+                <div class="card-title">Ã°ÂÂÂ Physical Games</div>
+                <div class="expand-icon">Ã¢ÂÂ¼</div>
+            </div>
+            <div class="card-content">
+                <div class="item"><strong>Thumb Wars</strong> - Classic 1v1 battle! "1, 2, 3, 4, I declare a thumb war!" Ã°ÂÂÂ</div>
+                <div class="item"><strong>Rock Paper Scissors Tournament</strong> - Best of 3, winner challenges next person! Ã¢ÂÂÃ¢ÂÂÃ¢ÂÂÃ¯Â¸Â</div>
+                <div class="item"><strong>Staring Contest</strong> - First to blink or laugh loses! No touching! Ã°ÂÂÂ</div>
+                <div class="item"><strong>Coin Balance</strong> - Balance a coin on your elbow, catch it! Most catches wins! Ã°ÂÂªÂ</div>
+            </div>
+        </div>
+
+        <div class="card" onclick="this.classList.toggle('expanded')">
+            <div class="card-header">
+                <div class="card-title">Ã°ÂÂÂ² Non-Physical Games</div>
+                <div class="expand-icon">Ã¢ÂÂ¼</div>
+            </div>
+            <div class="card-content">
+                <div class="item"><strong>Kiss, Marry, Kill</strong> - Choose 3 people/celebs. Others decide kiss, marry, or kill! Ã°ÂÂÂÃ°ÂÂÂÃ°ÂÂÂ</div>
+                <div class="item"><strong>Would You Rather</strong> - Impossible choices! "Would you rather have hiccups forever or feel like you need to sneeze forever?" Ã°ÂÂ¤Â</div>
+                <div class="item"><strong>Two Truths and a Lie</strong> - Say 3 statements, others guess which is fake! Ã°ÂÂÂ­</div>
+                <div class="item"><strong>Category Game</strong> - Pick a category (movies, bands, etc). Go around naming items. First to repeat or freeze loses! 🎯</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GOING HOME PHASE -->
+    <div class="phase-content" id="going-home">
+        <div class="phase-title">Ã°ÂÂÂ GOING HOME</div>
+
+        <div class="card" onclick="this.classList.toggle('expanded')">
+            <div class="card-header">
+                <div class="card-title">Ã°ÂÂÂ® Challenges</div>
+                <div class="expand-icon">Ã¢ÂÂ¼</div>
+            </div>
+            <div class="card-content">
+                <div class="item"><strong>Guess the Song</strong> - Hum a song, others have 3 guesses! 🎵</div>
+                <div class="item"><strong>Memory Challenge</strong> - Name everyone you talked to tonight! Can you remember them all? Ã°ÂÂ§Â </div>
+                <div class="item"><strong>Accent Challenge</strong> - Tell a story in a random accent! Ã°ÂÂÂ£Ã¯Â¸Â</div>
+                <div class="item"><strong>Rhyme Time</strong> - Pick a word, take turns rhyming. First to fail loses! Ã°ÂÂÂ</div>
+                <div class="item"><strong>Tonight's Highlights</strong> - Everyone shares their favorite moment from the night! Ã¢Â­Â</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHALLENGE WHEEL PHASE -->
+    <div class="phase-content" id="challenge-wheel">
+        <div class="legend" style="margin-top: 30px;">
+            <div class="legend-item">
+                <div class="legend-color color-laugh"></div>
+                <span>Ã°ÂÂÂ Laugh</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color color-heart"></div>
+                <span>Ã¢ÂÂ¤Ã¯Â¸Â Compliment</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color color-scary"></div>
+                <span>Ã°ÂÂÂ± Scary</span>
+            </div>
+        </div>
+        <div class="wheel-container" style="margin: 30px auto;">
+            <div class="wheel-pointer"></div>
+            <div class="wheel" id="wheel">
+                <div class="wheel-emoji emoji-laugh">Ã°ÂÂÂ</div>
+                <div class="wheel-emoji emoji-heart">Ã¢ÂÂ¤Ã¯Â¸Â</div>
+                <div class="wheel-emoji emoji-scary">Ã°ÂÂÂ±</div>
+                <div class="wheel-center">🎯</div>
+            </div>
+        </div>
+        <div class="challenge-result" id="challengeResult" style="max-width: 500px; margin: 20px auto;">
+            Click "SPIN THE WHEEL" to get your challenge! 🎱
+        </div>
+        <button class="btn" style="max-width: 500px; margin: 0 auto; display: block;" onclick="if(!window.usedChallenges) window.usedChallenges = {}; var challenges=[{type:'laugh',text:'Ã°ÂÂÂ Make the bartender genuinely laugh within 1 minute!'},{type:'laugh',text:'Ã°ÂÂÂ Tell your funniest story and make everyone at your table laugh!'},{type:'laugh',text:'Ã°ÂÂÂ Do your best celebrity impression!'},{type:'laugh',text:'Ã°ÂÂÂ Tell a joke - if nobody laughs, you drink!'},{type:'laugh',text:'Ã°ÂÂÂ Do your worst dance move for 30 seconds!'},{type:'laugh',text:'Ã°ÂÂÂ Speak in an accent for the next 5 minutes!'},{type:'compliment',text:'Ã¢ÂÂ¤Ã¯Â¸Â Give genuine compliments to 3 strangers!'},{type:'compliment',text:'Ã¢ÂÂ¤Ã¯Â¸Â Compliment someone on their style and ask where they got their outfit!'},{type:'compliment',text:'Ã¢ÂÂ¤Ã¯Â¸Â Tell someone nearby what you admire about them!'},{type:'compliment',text:'Ã¢ÂÂ¤Ã¯Â¸Â Compliment the bartender and thank them for their work!'},{type:'compliment',text:'Ã¢ÂÂ¤Ã¯Â¸Â Tell everyone in your group one thing you appreciate about them!'},{type:'compliment',text:'Ã¢ÂÂ¤Ã¯Â¸Â Give a genuine compliment to someone who looks like they need it!'},{type:'scary',text:'Ã°ÂÂÂ± Ask the bouncer for their scariest bar story!'},{type:'scary',text:'Ã°ÂÂÂ± Challenge someone to a staring contest - first to blink loses!'},{type:'scary',text:'Ã°ÂÂÂ± Ask a stranger what their biggest fear is!'},{type:'scary',text:'Ã°ÂÂÂ± Share your most embarrassing moment with the group!'},{type:'scary',text:'Ã°ÂÂÂ± Challenge a stranger to rock-paper-scissors, best of 3!'},{type:'scary',text:'Ã°ÂÂÂ± Ask someone what their first impression of you was!'}]; var wheel=document.getElementById('wheel'); var result=document.getElementById('challengeResult'); var rotations = 5; var extraDegrees = Math.random() * 360; var totalRotation = (rotations * 360) + extraDegrees; var currentRotation = parseFloat(wheel.style.transform.replace('rotate(','').replace('deg)','')) || 0; wheel.style.transform='rotate('+(currentRotation + totalRotation)+'deg)'; result.textContent='🎱 Spinning...'; setTimeout(function(){ var finalAngle = (360 - ((currentRotation + totalRotation) % 360)) % 360; var category; if(finalAngle >= 0 && finalAngle < 120) { category = 'laugh'; } else if(finalAngle >= 120 && finalAngle < 240) { category = 'compliment'; } else { category = 'scary'; } if(!window.usedChallenges[category]) window.usedChallenges[category] = []; var matchingChallenges = challenges.filter(function(c){ return c.type === category; }); var availableChallenges = matchingChallenges.filter(function(c){ return window.usedChallenges[category].indexOf(c.text) === -1; }); if(availableChallenges.length === 0) { window.usedChallenges[category] = []; availableChallenges = matchingChallenges; } var randomChallenge = availableChallenges[Math.floor(Math.random() * availableChallenges.length)]; window.usedChallenges[category].push(randomChallenge.text); result.textContent=randomChallenge.text;},4000);">SPIN THE WHEEL! 🎱</button>
+    </div>
+
+    <!-- BINGO PHASE -->
+    <div class="phase-content" id="bingo">
+        <div class="phase-title">🎯 OPENING LINES BINGO</div>
+        <p style="text-align: center; color: #00ffff; margin-bottom: 30px;">Use 3 opening lines in a row to get BINGO!</p>
+        <div id="bingoBoard" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; max-width: 500px; margin: 0 auto 30px;"></div>
+        <button class="btn" onclick="initBingo();" style="max-width: 300px; margin: 0 auto; display: block;">Ã°ÂÂÂ New Game</button>
+    </div>
+
+    <!-- ROULETTE PHASE -->
+    <div class="phase-content active" id="roulette">
+        <div class="phase-title">🎱 OPENING LINE ROULETTE</div>
+        <p style="text-align: center; color: #00ffff; margin-bottom: 20px;">Spin to assign challenges to players!</p>
+        
+        <!-- Step 1: Player Count -->
+        <div id="playerCountSection" style="max-width: 500px; margin: 30px auto;">
+            <h3 style="color: #00ffff; text-align: center; margin-bottom: 20px;">How many players?</h3>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="btn" onclick="setPlayerCount(1)" style="flex: 1;">1</button>
+                <button class="btn" onclick="setPlayerCount(2)" style="flex: 1;">2</button>
+                <button class="btn" onclick="setPlayerCount(3)" style="flex: 1;">3</button>
+                <button class="btn" onclick="setPlayerCount(4)" style="flex: 1;">4</button>
+                <button class="btn" onclick="setPlayerCount(5)" style="flex: 1;">5</button>
+            </div>
+        </div>
+        
+        <!-- Step 1.5: Player Names Entry (NEW!) -->
+        <div id="playerNamesSection" style="display: none; max-width: 500px; margin: 30px auto;">
+            <h3 style="color: #00ffff; text-align: center; margin-bottom: 20px;">Enter Player Names</h3>
+            <p style="text-align: center; color: #ffff00; margin-bottom: 20px; font-size: 0.9em;">(Optional - skip to use default names)</p>
+            <div id="nameInputs" style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px;">
+                <!-- Name inputs will be generated here -->
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn" onclick="startRoulette();" style="flex: 1; background: #00cc00;">Ã¢ÂÂ Continue</button>
+                <button class="btn" onclick="skipNames();" style="flex: 1; background: #ffaa00;">Skip Ã¢ÂÂ</button>
+            </div>
+        </div>
+        
+        <!-- Step 2: Spinner Section -->
+        <div id="spinnerSection" style="display: none; max-width: 500px; margin: 30px auto;">
+            <div style="background: rgba(255, 0, 128, 0.2); border: 2px solid #ff0080; border-radius: 15px; padding: 30px; margin-bottom: 20px;">
+                <h3 style="color: #ffff00; text-align: center; margin-bottom: 15px;" id="spinnerTitle">Spinning...</h3>
+                <div id="spinnerDisplay" style="text-align: center; font-size: 2em; font-weight: 900; color: #00ffff; min-height: 80px; display: flex; align-items: center; justify-content: center;">
+                    🎱
+                </div>
+            </div>
+            <button class="btn" id="spinBtn" onclick="spinNext();" style="width: 100%; margin-bottom: 10px;">🎱 SPIN</button>
+            <button class="btn" id="nextBtn" onclick="goToNextStep();" style="width: 100%; background: #00cc00; display: none;">Ã¢ÂÂ¡Ã¯Â¸Â NEXT</button>
+        </div>
+        
+        <!-- Step 3: Results & Countdown Section -->
+        <div id="resultsSection" style="display: none; max-width: 500px; margin: 30px auto;">
+            <div style="background: rgba(0, 255, 255, 0.2); border: 2px solid #00ffff; border-radius: 15px; padding: 30px; margin-bottom: 20px;">
+                <h3 style="color: #ffff00; text-align: center; margin-bottom: 20px;">🎯 CHALLENGE ASSIGNED!</h3>
+                <div style="text-align: left; color: #00ffff; font-size: 1.1em; line-height: 2;">
+                    <div><strong style="color: #ff0080;">Player:</strong> <span id="resultPlayer"></span></div>
+                    <div><strong style="color: #ff0080;">Opening Line:</strong> <span id="resultLine"></span></div>
+                    <div><strong style="color: #ff0080;">Target:</strong> <span id="resultTarget"></span></div>
+                    <div><strong style="color: #ff0080;">Time Limit:</strong> <span id="resultTime"></span></div>
+                </div>
+            </div>
+            <div id="countdownDisplay" style="text-align: center; font-size: 4em; color: #ffff00; font-weight: 900; margin: 30px 0;">
+                0:00
+            </div>
+            <button class="btn" onclick="resetRoulette();" style="width: 100%;">Ã°ÂÂÂ NEW ROUND</button>
+        </div>
+    </div>
+
+    <!-- RADAR CHART PHASE -->
+    <div class="phase-content" id="radar-chart">
+        <div class="chart-header" style="display: flex; align-items: center; justify-content: center; margin: 60px auto 10px auto; max-width: 550px;">
+            <input type="text" class="widget-input" id="radarInput" value="Enter name of chart here" onfocus="if(this.value==='Enter name of chart here'){this.value=''; document.getElementById('radarNameDisplay').textContent=''; document.getElementById('radarNameDisplay').style.display='none';}" onblur="if(this.value===''){this.value='Enter name of chart here'; document.getElementById('radarNameDisplay').style.display='none'; this.style.opacity='1'; this.style.fontSize='1em';} else {this.style.opacity='0.4'; this.style.fontSize='0.85em';}" oninput="if(this.value && this.value!=='Enter name of chart here'){document.getElementById('radarNameDisplay').textContent=this.value; document.getElementById('radarNameDisplay').style.display='flex'; this.style.opacity='0.4'; this.style.fontSize='0.85em';} else {document.getElementById('radarNameDisplay').style.display='none'; this.style.opacity='1'; this.style.fontSize='1em';}" style="max-width: 500px; margin: 0; flex: 1; transition: opacity 0.3s, font-size 0.3s;">
+            <span class="info-icon" style="flex-shrink: 0; margin-left: 10px;">i
+                <span class="info-tooltip">Tap on radar screen to move dot</span>
+            </span>
+        </div>
+        
+        <!-- Large readable display of radar name -->
+        <div id="radarNameDisplay" style="text-align: center; font-size: 2.5em; font-weight: 900; color: #00ffff; margin: 40px auto 20px; min-height: 60px; display: none; align-items: center; justify-content: center; padding: 0 20px;"></div>
+        
+        <div class="radar-container" onclick="var e=event||window.event; var r=this.getBoundingClientRect(); var d=document.getElementById('radarDot'); var x=e.clientX-r.left; var y=e.clientY-r.top; d.style.left=x+'px'; d.style.top=y+'px';" ontouchstart="var e=event||window.event; var t=e.touches[0]; var r=this.getBoundingClientRect(); var d=document.getElementById('radarDot'); var x=t.clientX-r.left; var y=t.clientY-r.top; d.style.left=x+'px'; d.style.top=y+'px';" style="margin: 30px auto;">
+            <div class="radar-grid">
+                <div class="radar-circle" style="width: 80px; height: 80px;"></div>
+                <div class="radar-circle" style="width: 160px; height: 160px;"></div>
+                <div class="radar-circle" style="width: 240px; height: 240px;"></div>
+            </div>
+            <div class="radar-sweep"></div>
+            <div class="radar-dot" id="radarDot"></div>
+        </div>
+        
+        <!-- Share Button for Radar -->
+        <div style="text-align: center; margin: 20px auto; max-width: 400px;">
+            <button class="btn" onclick="shareRadarChart()" style="background: #ff0080; font-size: 1.1em; padding: 15px 30px;">
+                Ã°ÂÂÂ¸ SHARE RADAR
+            </button>
+        </div>
+    </div>
+
+    <!-- BOLDNESS PHASE -->
+    <div class="phase-content" id="boldness">
+        <div class="chart-header" style="display: flex; align-items: center; justify-content: center; margin: 60px auto 10px auto; max-width: 550px;">
+            <input type="text" class="widget-input" id="meterInput" value="Enter name of chart here" onfocus="if(this.value==='Enter name of chart here'){this.value=''; document.getElementById('meterNameDisplay').textContent=''; document.getElementById('meterNameDisplay').style.display='none';}" onblur="if(this.value===''){this.value='Enter name of chart here'; document.getElementById('meterNameDisplay').style.display='none'; this.style.opacity='1'; this.style.fontSize='1em';} else {this.style.opacity='0.4'; this.style.fontSize='0.85em';}" oninput="if(this.value && this.value!=='Enter name of chart here'){document.getElementById('meterNameDisplay').textContent=this.value; document.getElementById('meterNameDisplay').style.display='flex'; this.style.opacity='0.4'; this.style.fontSize='0.85em';} else {document.getElementById('meterNameDisplay').style.display='none'; this.style.opacity='1'; this.style.fontSize='1em';}" style="max-width: 500px; margin: 0; flex: 1; transition: opacity 0.3s, font-size 0.3s;">
+            <span class="info-icon" style="flex-shrink: 0; margin-left: 10px;">i
+                <span class="info-tooltip">Press and hold to the left of bar chart at the bottom to decrease (minus sign) and to the right to increase (plus sign). Hold both at the same time to flicker meter.</span>
+            </span>
+        </div>
+        
+        <!-- Large readable display of meter name -->
+        <div id="meterNameDisplay" style="text-align: center; font-size: 2.5em; font-weight: 900; color: #00ffff; margin: 40px auto 20px; min-height: 60px; display: none; align-items: center; justify-content: center; padding: 0 20px;"></div>
+        
+        <div class="bar-chart" id="barChart" style="max-width: 400px; margin: 30px auto; position: relative;">
+            <!-- Minus circle on left -->
+            <div style="position: absolute; left: 15px; bottom: 15px; width: 40px; height: 40px; border-radius: 50%; background: rgba(40, 40, 40, 0.4); border: 1px solid rgba(80, 80, 80, 0.3); display: flex; align-items: center; justify-content: center; font-size: 24px; color: rgba(100, 100, 100, 0.5); font-weight: bold; pointer-events: none; z-index: 10;">Ã¢ÂÂ</div>
+            
+            <!-- Plus circle on right -->
+            <div style="position: absolute; right: 15px; bottom: 15px; width: 40px; height: 40px; border-radius: 50%; background: rgba(40, 40, 40, 0.4); border: 1px solid rgba(80, 80, 80, 0.3); display: flex; align-items: center; justify-content: center; font-size: 24px; color: rgba(100, 100, 100, 0.5); font-weight: bold; pointer-events: none; z-index: 10;">+</div>
+            
+            <div class="bar" id="theBar" style="height: 5%;">
+                <div class="bar-pct" id="barPct">5%</div>
+            </div>
+            <div class="zone zone-left" 
+                 onmousedown="var e=event||window.event; this.interval=setInterval(function(){var b=document.getElementById('theBar'); var h=parseInt(b.style.height)||0; h=Math.max(0,h-5); b.style.height=h+'%'; document.getElementById('barPct').textContent=h+'%';},150);" 
+                 onmouseup="clearInterval(this.interval)" 
+                 onmouseleave="clearInterval(this.interval)"
+                 ontouchstart="var e=event||window.event; e.preventDefault(); this.interval=setInterval(function(){var b=document.getElementById('theBar'); var h=parseInt(b.style.height)||0; h=Math.max(0,h-5); b.style.height=h+'%'; document.getElementById('barPct').textContent=h+'%';},150);" 
+                 ontouchend="clearInterval(this.interval)"></div>
+            <div class="zone zone-right" 
+                 onmousedown="var e=event||window.event; this.interval=setInterval(function(){var b=document.getElementById('theBar'); var h=parseInt(b.style.height)||0; h=Math.min(100,h+5); b.style.height=h+'%'; document.getElementById('barPct').textContent=h+'%';},150);" 
+                 onmouseup="clearInterval(this.interval)" 
+                 onmouseleave="clearInterval(this.interval)"
+                 ontouchstart="var e=event||window.event; e.preventDefault(); this.interval=setInterval(function(){var b=document.getElementById('theBar'); var h=parseInt(b.style.height)||0; h=Math.min(100,h+5); b.style.height=h+'%'; document.getElementById('barPct').textContent=h+'%';},150);" 
+                 ontouchend="clearInterval(this.interval)"></div>
+        </div>
+    </div>
+
+    <!-- COMPETE MODE -->
+    <div class="phase-content" id="compete">
+        <div class="phase-title">Ã°ÂÂÂ COMPETE MODE</div>
+        <p style="text-align: center; color: #00ffff; margin-bottom: 20px;">Challenge your friends! Most completions wins!</p>
+        
+        <!-- Step 1: Setup -->
+        <div id="competeSetup" style="max-width: 500px; margin: 30px auto;">
+            <h3 style="color: #00ffff; text-align: center; margin-bottom: 20px;">Solo Competition Mode</h3>
+            <p style="text-align: center; color: #ffff00; margin-bottom: 30px;">Everyone starts at the same time on their own phone. Complete as many challenges as you can, then compare scores!</p>
+            
+            <!-- Player Name Input -->
+            <div style="margin-bottom: 20px;">
+                <label style="color: #ffff00; font-weight: bold; display: block; margin-bottom: 10px;">Your Name:</label>
+                <input type="text" id="competeSoloName" placeholder="Enter your name..." style="width: 100%; padding: 15px; background: rgba(0, 255, 255, 0.1); border: 2px solid #00ffff; border-radius: 10px; color: white; font-size: 1.1em; box-sizing: border-box;">
+            </div>
+            
+            <!-- Time Selection -->
+            <div style="margin-bottom: 30px;">
+                <label style="color: #ffff00; font-weight: bold; display: block; margin-bottom: 10px;">Competition Time:</label>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                    <button class="btn compete-time-btn" onclick="setCompeteTime(300)" id="competeTime300" style="font-size: 0.9em; background: #ff0080;">5 min Ã¢ÂÂ</button>
+                    <button class="btn compete-time-btn" onclick="setCompeteTime(900)" style="font-size: 0.9em;">15 min</button>
+                    <button class="btn compete-time-btn" onclick="setCompeteTime(1800)" style="font-size: 0.9em;">30 min</button>
+                    <button class="btn compete-time-btn" onclick="setCompeteTime(2700)" style="font-size: 0.9em;">45 min</button>
+                    <button class="btn compete-time-btn" onclick="setCompeteTime(3600)" style="font-size: 0.9em;">60 min</button>
+                    <button class="btn compete-time-btn" onclick="showCustomTime()" style="font-size: 0.9em;">Custom</button>
+                </div>
+                
+                <!-- Custom Time Input -->
+                <div id="customTimeInput" style="display: none; margin-top: 15px;">
+                    <label style="color: #00ffff; font-size: 0.9em; display: block; margin-bottom: 5px;">Enter minutes (5-120):</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="customTimeMinutes" min="5" max="120" value="30" style="flex: 1; padding: 10px; background: rgba(0, 255, 255, 0.1); border: 2px solid #00ffff; border-radius: 10px; color: white; font-size: 1em;">
+                        <button class="btn" onclick="setCustomTime()" style="padding: 10px 20px;">Set</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: rgba(255, 0, 128, 0.2); border: 2px solid #ff0080; border-radius: 15px; padding: 20px; margin-bottom: 20px;">
+                <h4 style="color: #ffff00; margin-top: 0;">Ã°ÂÂÂ± How to Compete:</h4>
+                <div style="color: white; line-height: 1.8;">
+                    1Ã¯Â¸ÂÃ¢ÂÂ£ All players enter their name & select same time<br>
+                    2Ã¯Â¸ÂÃ¢ÂÂ£ Everyone clicks START at the same time<br>
+                    3Ã¯Â¸ÂÃ¢ÂÂ£ Complete challenges until timer ends<br>
+                    4Ã¯Â¸ÂÃ¢ÂÂ£ Meet up and compare final scores<br>
+                    5Ã¯Â¸ÂÃ¢ÂÂ£ Highest score wins! Ã°ÂÂÂ
+                </div>
+            </div>
+            
+            <button class="btn" onclick="startSoloCompetition()" id="startCompeteBtn" style="width: 100%; background: #00cc00; font-size: 1.2em; padding: 15px;">Ã°ÂÂÂ START COMPETITION (5 MIN)</button>
+        </div>
+        
+        <!-- Step 2: Active Competition -->
+        <div id="competeActive" style="display: none; max-width: 600px; margin: 30px auto;">
+            <!-- Timer Display -->
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div style="font-size: 3em; color: #ffff00; font-weight: 900;" id="competeTimer">30:00</div>
+                <div style="color: #ff0080; font-size: 1.2em; margin-top: 10px;" id="competeStatus">Competition in progress...</div>
+            </div>
+            
+            <!-- Personal Score Display -->
+            <div style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 0, 128, 0.2)); border: 3px solid #ffd700; border-radius: 15px; padding: 20px; margin-bottom: 30px; text-align: center;">
+                <div style="color: #00ffff; font-size: 1.2em; margin-bottom: 5px;" id="competePlayerName">YOUR NAME</div>
+                <div style="font-size: 4em; color: #ffd700; font-weight: 900; text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);" id="competeScore">0</div>
+                <div style="color: #ffff00; font-size: 1em; margin-top: 5px;">COMPLETIONS</div>
+            </div>
+            
+            <!-- Challenge Display -->
+            <div id="competeChallenge" style="background: rgba(255, 0, 128, 0.2); border: 2px solid #ff0080; border-radius: 15px; padding: 30px; margin-bottom: 20px;">
+                <h3 style="color: #ffff00; text-align: center; margin-bottom: 15px;">YOUR CHALLENGE</h3>
+                <div style="text-align: center; font-size: 1.3em; color: white; min-height: 60px; display: flex; align-items: center; justify-content: center; line-height: 1.5;" id="competeChallengeText"></div>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn" onclick="completeChallenge()" style="flex: 1; background: #00cc00; font-size: 1.1em; padding: 15px;">Ã¢ÂÂ COMPLETED (+1)</button>
+                    <button class="btn" onclick="skipChallenge()" style="flex: 1; background: #ff8800; font-size: 1.1em; padding: 15px;">Ã¢ÂÂ­ SKIP (-1)</button>
+                </div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div style="background: rgba(0, 255, 255, 0.1); border: 1px solid #00ffff; border-radius: 10px; padding: 15px;">
+                <div style="display: flex; justify-content: space-around; text-align: center;">
+                    <div>
+                        <div style="color: #00ffff; font-size: 0.9em;">Completed</div>
+                        <div style="color: #00cc00; font-size: 1.5em; font-weight: bold;" id="competeCompleted">0</div>
+                    </div>
+                    <div>
+                        <div style="color: #00ffff; font-size: 0.9em;">Skipped</div>
+                        <div style="color: #ff8800; font-size: 1.5em; font-weight: bold;" id="competeSkipped">0</div>
+                    </div>
+                    <div>
+                        <div style="color: #00ffff; font-size: 0.9em;">Net Score</div>
+                        <div style="color: #ffd700; font-size: 1.5em; font-weight: bold;" id="competeNetScore">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 3: Results -->
+        <div id="competeResults" style="display: none; max-width: 500px; margin: 30px auto;">
+            <div style="background: rgba(255, 215, 0, 0.2); border: 2px solid #ffd700; border-radius: 15px; padding: 30px; margin-bottom: 20px;">
+                <h2 style="color: #ffd700; text-align: center; margin-bottom: 20px;">Ã¢ÂÂ° TIME'S UP! Ã¢ÂÂ°</h2>
+                
+                <!-- Player's Final Score -->
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <div style="color: #00ffff; font-size: 1.3em; margin-bottom: 10px;" id="competeFinalName"></div>
+                    <div style="font-size: 5em; color: #ffd700; font-weight: 900; text-shadow: 0 0 30px rgba(255, 215, 0, 0.7);" id="competeFinalScore">0</div>
+                    <div style="color: #ffff00; font-size: 1.2em;">COMPLETIONS</div>
+                </div>
+                
+                <!-- Stats Breakdown -->
+                <div style="background: rgba(0, 255, 255, 0.1); border: 1px solid #00ffff; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                    <h4 style="color: #00ffff; margin-top: 0; text-align: center;">Your Stats</h4>
+                    <div style="display: flex; justify-content: space-around; text-align: center; margin-top: 15px;">
+                        <div>
+                            <div style="color: #00cc00; font-size: 2em; font-weight: bold;" id="resultCompleted">0</div>
+                            <div style="color: #00ffff; font-size: 0.9em;">Completed</div>
+                        </div>
+                        <div>
+                            <div style="color: #ff8800; font-size: 2em; font-weight: bold;" id="resultSkipped">0</div>
+                            <div style="color: #00ffff; font-size: 0.9em;">Skipped</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Instructions -->
+                <div style="background: rgba(255, 0, 128, 0.2); border: 2px solid #ff0080; border-radius: 10px; padding: 20px; text-align: center;">
+                    <div style="color: #ffff00; font-size: 1.1em; margin-bottom: 10px;">Ã°ÂÂÂ± Now compare scores with your friends!</div>
+                    <div style="color: white; font-size: 0.95em; line-height: 1.6;">Everyone show their final scores. Highest number wins! Ã°ÂÂÂ</div>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 10px;">
+                <button class="btn" onclick="resetCompeteMode()" style="flex: 1; background: #00cc00;">Ã°ÂÂÂ PLAY AGAIN</button>
+                <button class="btn" onclick="shareCompeteScore()" style="flex: 1; background: #ff0080;">Ã°ÂÂÂ± SHARE SCORE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GOING HOME PHASE -->
+    <div class="phase-content" id="going-home">
+        <div class="phase-title">Ã°ÂÂÂ GOING HOME</div>
+
+        <div class="card" onclick="this.classList.toggle('expanded')">
+            <div class="card-header">
+                <div class="card-title">Ã°ÂÂÂ® Challenges</div>
+                <div class="expand-icon">Ã¢ÂÂ¼</div>
+            </div>
+            <div class="card-content">
+                <div class="item"><strong>Guess the Song</strong> - Hum a song, others have 3 guesses! 🎵</div>
+                <div class="item"><strong>Memory Challenge</strong> - Name everyone you talked to tonight! Can you remember them all? Ã°ÂÂ§Â </div>
+                <div class="item"><strong>Accent Challenge</strong> - Tell a story in a random accent! Ã°ÂÂÂ£Ã¯Â¸Â</div>
+                <div class="item"><strong>Rhyme Time</strong> - Pick a word, take turns rhyming. First to fail loses! Ã°ÂÂÂ</div>
+                <div class="item"><strong>Tonight's Highlights</strong> - Everyone shares their favorite moment from the night! Ã¢Â­Â</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // SHARED OPENING LINES DATABASE
+    window.OPENING_LINES = [
+        "Cheers! What are you drinking tonight?",
+        "What's the occasionÃ¢ÂÂcelebrating something?",
+        "Do people cheat because they're unhappyÃ¢ÂÂor because they can?",
+        "This place is packedÃ¢ÂÂwhat brought you here?",
+        "That drink looks interestingÃ¢ÂÂwhat is it?",
+        "Who lies more, men or women?",
+        "I'm lostÃ¢ÂÂwhere are the hot spots in this town?",
+        "You seem funÃ¢ÂÂam I right?",
+        "You stand outÃ¢ÂÂtell me why.",
+        "If you could hop on an airplane tonight where would you go?",
+        "Ask for the cheesiest open line they have heard. Turn away, turn back and then tell it to them.",
+        "Do people cheat because they're unhappyÃ¢ÂÂor because they can?",
+        "Are modern dating apps empoweringÃ¢ÂÂor just encouraging selfish behavior?",
+        "Do you think most breakups happen too late or too early?",
+        "Do you believe men and women want the same things from relationships?",
+        "Are people single because they have standardsÃ¢ÂÂor because they're difficult?",
+        "Is fear of commitment actually fear of choosing wrong?",
+        "Can relationships survive big value differences, or is that wishful thinking?",
+        "How important is sexual compatibility reallyÃ¢ÂÂbe honest.",
+        "What's harder: ending a relationship or getting over it?",
+        "What's the biggest red flag people ignore because they're attracted?",
+        "Who usually does more emotional work in relationshipsÃ¢ÂÂmen or women?",
+        "Have dating apps made people pickier or just more disposable?",
+        "How long is too long to wait before replying to a text on purpose?",
+        "Is ghosting ever justified, or is it always a coward move?",
+        "My friends say that you look like the most adventurous woman in this bar but you do not come across like that to me.",
+        "I read a survey which states that girls who wear (refer to something she wears) are sexually inhibited is that true?",
+        "Is a girl who kisses another girl cheating? What is a guy kisses another guy?",
+        "How long shall you wait before dating a friends ex?",
+        "Would you ever get a tattoo with your partners name?",
+        "Is it OK to end a relationship via text message?",
+        "Would you ever consider going back to an ex? When?",
+        "Is this a good place for a date? Why?",
+        "Doe my friend look gay? A guy just hit on him.",
+        "Imitate a dove and ask them to name the animal you imitated.",
+        "Imitate a seal and ask them to name the animal you imitated.",
+        "Imitate a lion and ask them to name the animal you imitated.",
+        "Tell me three things one must be a lie. (Guess which is the lie)",
+        "If you were of the opposite sex for a day what would you do?",
+        "What is the most embarrassing thing that happened to you on a date?",
+        "If your friend was a dog - which breed would it be?"
+    ];
+    
+    // BINGO GAME
+    window.bingoInitialized = false;
+    
+    function initBingo() {
+        var board = document.getElementById('bingoBoard');
+        if (!board) return;
+        
+        board.innerHTML = '';
+        window.bingoBoard = [];
+        window.bingoMarked = [];
+        
+        var shuffled = window.OPENING_LINES.slice().sort(function() { return Math.random() - 0.5; });
+        window.bingoBoard = shuffled.slice(0, 9);
+        window.bingoMarked = new Array(9).fill(false);
+        
+        for (var i = 0; i < 9; i++) {
+            (function(idx) {
+                var cell = document.createElement('div');
+                cell.innerHTML = window.bingoBoard[idx];
+                cell.style.cssText = 'background: rgba(0, 255, 255, 0.1); border: 2px solid #00ffff; border-radius: 10px; padding: 20px; cursor: pointer; text-align: center; font-size: 0.9em; min-height: 120px; display: flex; align-items: center; justify-content: center;';
+                cell.onclick = function() {
+                    window.bingoMarked[idx] = !window.bingoMarked[idx];
+                    cell.style.background = window.bingoMarked[idx] ? 'rgba(255, 0, 128, 0.3)' : 'rgba(0, 255, 255, 0.1)';
+                    cell.style.borderColor = window.bingoMarked[idx] ? '#ff0080' : '#00ffff';
+                    checkBingo();
+                };
+                board.appendChild(cell);
+            })(i);
+        }
+        window.bingoInitialized = true;
+    }
+    
+    function checkBingo() {
+        var wins = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+        for (var i = 0; i < wins.length; i++) {
+            if (window.bingoMarked[wins[i][0]] && window.bingoMarked[wins[i][1]] && window.bingoMarked[wins[i][2]]) {
+                alert('🎉 BINGO! You completed a line!');
+                return;
+            }
+        }
+    }
+    
+    // ROULETTE GAME - REDESIGNED WITH MANUAL NEXT & COUNTDOWN
+    window.rouletteData = {
+        playerCount: 0,
+        currentStep: 0, // 0=player, 1=line, 2=target, 3=time
+        selectedPlayer: '',
+        selectedLine: '',
+        selectedTarget: '',
+        selectedTime: 0,
+        countdownInterval: null,
+        targets: [
+            // Staff/Authority (5)
+            "the bartender",
+            "the bouncer or security",
+            "a server or waiter",
+            "the host or hostess",
+            "someone who works here",
+            // Groups (6)
+            "a group of three people",
+            "a group of women",
+            "a group of men",
+            "a group of two people",
+            "a group of four or more people",
+            "the largest group you can see",
+            // Individuals by Position (6)
+            "the first person on your right",
+            "someone sitting alone",
+            "someone at the bar",
+            "the person closest to you",
+            "someone by the entrance",
+            "the person furthest from you",
+            // By Appearance (9)
+            "someone wearing blue",
+            "the tallest person you can see",
+            "a businessperson",
+            "someone with a hat",
+            "the oldest person in the room",
+            "someone with glasses",
+            "someone wearing red",
+            "the best dressed person here",
+            "someone with tattoos",
+            "someone in casual clothes",
+            // By Activity (6)
+            "someone dancing",
+            "a couple",
+            "someone on their phone",
+            "someone laughing",
+            "someone ordering a drink",
+            "someone taking a selfie"
+        ]
+    };
+    
+    // ============================================
+    // RETENTION FEATURES - Daily Dare, Streak, Opener of Week
+    // ============================================
+    
+    // 365 Daily Dares (one for each day of year)
+    window.DAILY_DARES = [
+        "Say hi to someone at the bar",
+        "Compliment someone's outfit",
+        "Ask someone what they're drinking",
+        "High-five a stranger",
+        "Ask the bartender for a recommendation",
+        "Introduce yourself to someone new",
+        "Ask someone where they're from",
+        "Share a fun fact about yourself",
+        "Compliment someone's laugh",
+        "Ask about someone's weekend plans",
+        "Tell someone a joke",
+        "Ask someone to dance",
+        "Ask someone for their phone number",
+        "Challenge someone to rock-paper-scissors",
+        "Ask about someone's tattoos (if visible)",
+        "Share your most embarrassing moment",
+        "Ask someone their go-to karaoke song",
+        "Make someone laugh within 30 seconds",
+        "Do a quick 10-second dance move",
+        "Ask someone their unpopular opinion",
+        "Recommend a drink to someone",
+        "Ask someone their craziest bar story",
+        "Give someone a genuine compliment",
+        "Ask what brought them here tonight",
+        "Share your favorite travel destination",
+        "Ask someone to guess your job",
+        "Tell someone about your hidden talent",
+        "Ask about their most controversial food take",
+        "Challenge someone to arm wrestling",
+        "Ask someone to teach you something",
+        "Share your best pickup line",
+        "Ask about their dream vacation",
+        "Compliment the bartender's skills",
+        "Ask someone's favorite movie",
+        "Share your bucket list item",
+        "Ask someone about their pets",
+        "Tell a stranger they have great energy",
+        "Ask someone's celebrity crush",
+        "Share your guilty pleasure",
+        "Ask about their weekend adventure",
+        "Compliment someone's choice of drink",
+        "Ask what they do for fun",
+        "Share your favorite local spot",
+        "Ask about their most adventurous experience",
+        "Tell someone they seem interesting",
+        "Ask their opinion on something trending",
+        "Share a recent accomplishment",
+        "Ask about their favorite band/artist",
+        "Compliment someone's vibe",
+        "Ask what superpower they'd want"
+    ];
+    
+    // Fill rest with variations to reach 365
+    while (window.DAILY_DARES.length < 365) {
+        window.DAILY_DARES.push(window.DAILY_DARES[window.DAILY_DARES.length % 50]);
+    }
+    
+    // 52 Weekly Openers
+    window.WEEKLY_OPENERS = [
+        "If you could hop on a plane tonight, where would you go?",
+        "What's the most spontaneous thing you've ever done?",
+        "Are you more of a coffee or wine person?",
+        "What's your hidden talent that no one knows about?",
+        "If you could have dinner with anyone dead or alive, who would it be?",
+        "What's the best concert you've ever been to?",
+        "Are you a morning person or night owl?",
+        "What's your go-to karaoke song?",
+        "If you won the lottery tomorrow, what's the first thing you'd do?",
+        "What's the most adventurous food you've tried?",
+        "Do you have any pets? Tell me about them!",
+        "What's your favorite way to spend a Sunday?",
+        "If you could master any skill instantly, what would it be?",
+        "What's the best piece of advice you've ever received?",
+        "Are you reading anything good right now?",
+        "What's your favorite thing about this city?",
+        "If you could relive any year of your life, which would it be?",
+        "What's your biggest pet peeve?",
+        "Do you believe in aliens?",
+        "What's the most interesting job you've ever had?",
+        "If you could only eat one cuisine for the rest of your life, what would it be?",
+        "What's your favorite holiday and why?",
+        "Are you more of a beach or mountain person?",
+        "What's the last thing that made you laugh really hard?",
+        "If you could have any superpower, what would it be?",
+        "What's your guilty pleasure TV show?",
+        "Do you have a favorite childhood memory?",
+        "What's the boldest thing you've ever done?",
+        "If you could time travel, past or future?",
+        "What's your signature drink order?",
+        "Do you believe in love at first sight?",
+        "What's the best trip you've ever taken?",
+        "Are you more logical or emotional?",
+        "What's your favorite season and why?",
+        "If you could switch lives with someone for a day, who?",
+        "What's the most unusual thing about you?",
+        "Do you prefer spontaneity or planning?",
+        "What's your dream job?",
+        "Are you an introvert or extrovert?",
+        "What's the best compliment you've ever received?",
+        "If you could learn any language instantly, which one?",
+        "What's your favorite way to unwind?",
+        "Do you have any irrational fears?",
+        "What's the most valuable lesson you've learned?",
+        "Are you a dog person or cat person?",
+        "What's your favorite thing to cook?",
+        "If you could attend any event in history, what would it be?",
+        "What's your biggest goal right now?",
+        "Do you believe in fate or free will?",
+        "What's the best decision you've ever made?",
+        "If you could give your younger self one piece of advice, what would it be?",
+        "What makes you feel most alive?"
+    ];
+    
+    function getDayOfYear(date) {
+        var start = new Date(date.getFullYear(), 0, 0);
+        var diff = date - start;
+        var oneDay = 1000 * 60 * 60 * 24;
+        return Math.floor(diff / oneDay);
+    }
+    
+    function getWeekNumber(date) {
+        var d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+        var dayNum = d.getUTCDay() || 7;
+        d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+        var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+        return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
+    }
+    
+    function checkAndUpdateStreak() {
+        var today = new Date().toDateString();
+        var lastVisit = localStorage.getItem('lastVisit');
+        var currentStreak = parseInt(localStorage.getItem('streak')) || 0;
+        
+        if (!lastVisit) {
+            currentStreak = 1;
+            localStorage.setItem('lastVisit', today);
+            localStorage.setItem('streak', currentStreak);
+        } else if (lastVisit !== today) {
+            var lastDate = new Date(lastVisit);
+            var todayDate = new Date(today);
+            var diffDays = Math.floor((todayDate - lastDate) / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 1) {
+                currentStreak++;
+                localStorage.setItem('streak', currentStreak);
+                localStorage.setItem('lastVisit', today);
+            } else {
+                currentStreak = 1;
+                localStorage.setItem('streak', currentStreak);
+                localStorage.setItem('lastVisit', today);
+            }
+        }
+        
+        document.getElementById('streakCount').textContent = currentStreak;
+        
+        if (currentStreak === 1) {
+            document.getElementById('streakMessage').textContent = 'Great start!';
+        } else if (currentStreak < 7) {
+            document.getElementById('streakMessage').textContent = 'Keep it going!';
+        } else if (currentStreak < 30) {
+            document.getElementById('streakMessage').textContent = 'On fire! 🔥';
+        } else if (currentStreak < 100) {
+            document.getElementById('streakMessage').textContent = 'Legend status!';
+        } else {
+            document.getElementById('streakMessage').textContent = 'UNSTOPPABLE! Ã°ÂÂÂ';
+        }
+    }
+    
+    function loadDailyDare() {
+        var today = new Date();
+        var dayOfYear = getDayOfYear(today);
+        var dareIndex = dayOfYear % window.DAILY_DARES.length;
+        var todaysDare = window.DAILY_DARES[dareIndex];
+        
+        document.getElementById('dailyDareText').textContent = todaysDare;
+        
+        var completedToday = localStorage.getItem('dailyDare_' + today.toDateString());
+        
+        if (completedToday === 'true') {
+            document.getElementById('acceptDareBtn').style.display = 'none';
+            document.getElementById('dareStatus').innerHTML = 'Ã¢ÂÂ Completed!';
+            document.getElementById('dareStatus').style.color = '#00ff00';
+        } else {
+            document.getElementById('acceptDareBtn').style.display = 'block';
+            document.getElementById('dareStatus').innerHTML = '';
+        }
+    }
+    
+    function acceptDailyDare() {
+        var today = new Date().toDateString();
+        localStorage.setItem('dailyDare_' + today, 'true');
+        
+        document.getElementById('acceptDareBtn').style.display = 'none';
+        document.getElementById('dareStatus').innerHTML = 'Ã¢ÂÂ Dare Accepted! Go do it!';
+        document.getElementById('dareStatus').style.color = '#00ff00';
+        
+        if (navigator.vibrate) {
+            navigator.vibrate(200);
+        }
+        
+        var totalDares = parseInt(localStorage.getItem('totalDaresCompleted')) || 0;
+        totalDares++;
+        localStorage.setItem('totalDaresCompleted', totalDares);
+    }
+    
+    function loadWeeklyOpener() {
+        var today = new Date();
+        var weekNum = getWeekNumber(today);
+        var openerIndex = weekNum % window.WEEKLY_OPENERS.length;
+        var weeklyOpener = window.WEEKLY_OPENERS[openerIndex];
+        
+        document.getElementById('weeklyOpenerText').textContent = weeklyOpener;
+    }
+    
+    function useWeeklyOpener() {
+        var opener = document.getElementById('weeklyOpenerText').textContent;
+        
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(opener).then(function() {
+                alert('Ã¢ÂÂ Opener copied to clipboard! Go use it!');
+            }).catch(function() {
+                alert('Opener: "' + opener + '"');
+            });
+        } else {
+            alert('Opener: "' + opener + '"');
+        }
+        
+        var weeklyUsed = localStorage.getItem('weeklyOpenerUsed_' + getWeekNumber(new Date()));
+        if (!weeklyUsed) {
+            localStorage.setItem('weeklyOpenerUsed_' + getWeekNumber(new Date()), 'true');
+            var totalWeekly = parseInt(localStorage.getItem('totalWeeklyUsed')) || 0;
+            totalWeekly++;
+            localStorage.setItem('totalWeeklyUsed', totalWeekly);
+        }
+        
+        if (navigator.vibrate) {
+            navigator.vibrate([100, 50, 100]);
+        }
+    }
+    
+    // COMPETE MODE DATA
+    window.competeData = {
+        playerCount: 0,
+        players: [], // {name: "", score: 0, currentChallenge: ""}
+        currentPlayerIndex: 0,
+        timeLeft: 300, // 5 minutes in seconds (default)
+        timerInterval: null,
+        isActive: false,
+        challenges: [
+            // Easy starters (everyone can do these)
+            "Say hi to someone new",
+            "Compliment someone's outfit",
+            "Ask someone what they're drinking",
+            "High-five a stranger",
+            "Ask someone their name",
+            "Tell someone a joke",
+            "Ask 'What brings you here tonight?'",
+            "Compliment someone's shoes",
+            "Ask for a drink recommendation",
+            "Start a conversation about the music",
+            
+            // Medium challenges (a bit bolder)
+            "Ask someone about their craziest bar story",
+            "Introduce yourself to a group",
+            "Ask someone to take a photo of you",
+            "Share your favorite pickup line",
+            "Ask someone about their weekend plans",
+            "Compliment someone's smile",
+            "Ask 'Are you from around here?'",
+            "Start a debate about something silly",
+            "Ask someone to recommend a good restaurant",
+            "Tell a stranger an interesting fact",
+            
+            // Harder challenges (require confidence)
+            "Do your best celebrity impression",
+            "Sing one line of a song",
+            "Make someone laugh within 30 seconds",
+            "Ask someone to dance (or just move to the music)",
+            "Tell someone they have great energy",
+            "Ask 'What's your hidden talent?'",
+            "Challenge someone to rock-paper-scissors",
+            "Ask someone to guess your age",
+            "Share your most embarrassing moment",
+            "Create a secret handshake with a stranger"
+        ]
+    };
+    
+    function setCompetePlayers(count) {
+        window.competeData.playerCount = count;
+        
+        // Generate name input fields
+        var nameInputsDiv = document.getElementById('competeNameInputs');
+        nameInputsDiv.innerHTML = '';
+        
+        for (var i = 1; i <= count; i++) {
+            var inputDiv = document.createElement('div');
+            inputDiv.style.cssText = 'margin-bottom: 10px;';
+            inputDiv.innerHTML = '<input type="text" id="competePlayer' + i + '" placeholder="Player ' + i + ' name..." style="width: 100%; padding: 12px; background: rgba(0, 255, 255, 0.1); border: 2px solid #00ffff; border-radius: 10px; color: white; font-size: 1em;">';
+            nameInputsDiv.appendChild(inputDiv);
+        }
+        
+        document.getElementById('competePlayerNames').style.display = 'block';
+    }
+    
+    function startCompetition() {
+        // Collect player names
+        window.competeData.players = [];
+        for (var i = 1; i <= window.competeData.playerCount; i++) {
+            var nameInput = document.getElementById('competePlayer' + i);
+            var name = nameInput.value.trim() || ('Player ' + i);
+            window.competeData.players.push({
+                name: name,
+                score: 0,
+                currentChallenge: ''
+            });
+        }
+        
+        // Initialize competition
+        window.competeData.currentPlayerIndex = 0;
+        window.competeData.timeLeft = 1800; // 30 minutes
+        window.competeData.isActive = true;
+        
+        // Give each player their first challenge
+        for (var i = 0; i < window.competeData.players.length; i++) {
+            window.competeData.players[i].currentChallenge = getRandomChallenge();
+        }
+        
+        // Show active competition screen
+        document.getElementById('competeSetup').style.display = 'none';
+        document.getElementById('competeActive').style.display = 'block';
+        
+        // Setup UI
+        createPlayerTabs();
+        updateLeaderboard();
+        switchToPlayer(0);
+        startCompeteTimer();
+    }
+    
+    function getRandomChallenge() {
+        var challenges = window.competeData.challenges;
+        return challenges[Math.floor(Math.random() * challenges.length)];
+    }
+    
+    function createPlayerTabs() {
+        var tabsDiv = document.getElementById('competePlayerTabs');
+        tabsDiv.innerHTML = '';
+        
+        for (var i = 0; i < window.competeData.players.length; i++) {
+            var btn = document.createElement('button');
+            btn.className = 'btn';
+            btn.textContent = window.competeData.players[i].name;
+            btn.style.cssText = 'flex: 1; padding: 10px; font-size: 0.9em;';
+            btn.onclick = (function(index) {
+                return function() {
+                    switchToPlayer(index);
+                };
+            })(i);
+            
+            if (i === 0) {
+                btn.style.background = '#00ffff';
+                btn.style.color = '#0a0e27';
+            }
+            
+            tabsDiv.appendChild(btn);
+        }
+    }
+    
+    function switchToPlayer(index) {
+        window.competeData.currentPlayerIndex = index;
+        var player = window.competeData.players[index];
+        
+        // Update challenge display
+        document.getElementById('competeChallengeTitle').textContent = player.name + "'s Challenge";
+        document.getElementById('competeChallengeText').textContent = player.currentChallenge;
+        
+        // Update tab highlighting
+        var tabs = document.getElementById('competePlayerTabs').children;
+        for (var i = 0; i < tabs.length; i++) {
+            if (i === index) {
+                tabs[i].style.background = '#00ffff';
+                tabs[i].style.color = '#0a0e27';
+            } else {
+                tabs[i].style.background = '';
+                tabs[i].style.color = '';
+            }
+        }
+    }
+    
+    function completeChallenge() {
+        var player = window.competeData.players[window.competeData.currentPlayerIndex];
+        player.score++;
+        player.currentChallenge = getRandomChallenge();
+        
+        // Update display
+        document.getElementById('competeChallengeText').textContent = player.currentChallenge;
+        updateLeaderboard();
+        
+        // Play success sound effect (visual feedback)
+        var challengeDiv = document.getElementById('competeChallenge');
+        challengeDiv.style.background = 'rgba(0, 255, 0, 0.3)';
+        setTimeout(function() {
+            challengeDiv.style.background = 'rgba(255, 0, 128, 0.2)';
+        }, 300);
+    }
+    
+    function skipChallenge() {
+        var player = window.competeData.players[window.competeData.currentPlayerIndex];
+        player.currentChallenge = getRandomChallenge();
+        document.getElementById('competeChallengeText').textContent = player.currentChallenge;
+    }
+    
+    function updateLeaderboard() {
+        var leaderboard = document.getElementById('competeLeaderboard');
+        
+        // Sort players by score
+        var sortedPlayers = window.competeData.players.slice().sort(function(a, b) {
+            return b.score - a.score;
+        });
+        
+        var html = '';
+        for (var i = 0; i < sortedPlayers.length; i++) {
+            var player = sortedPlayers[i];
+            var emoji = i === 0 ? 'Ã°ÂÂ¥Â' : i === 1 ? 'Ã°ÂÂ¥Â' : i === 2 ? 'Ã°ÂÂ¥Â' : 'Ã°ÂÂÂ';
+            var color = i === 0 ? '#ffd700' : '#00ffff';
+            
+            html += '<div style="display: flex; justify-content: space-between; padding: 10px; margin-bottom: 5px; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">';
+            html += '<span style="color: ' + color + '; font-weight: bold;">' + emoji + ' ' + player.name + '</span>';
+            html += '<span style="color: #ffff00; font-weight: bold; font-size: 1.2em;">' + player.score + '</span>';
+            html += '</div>';
+        }
+        
+        leaderboard.innerHTML = html;
+    }
+    
+    function startCompeteTimer() {
+        var display = document.getElementById('competeTimer');
+        
+        function updateTimer() {
+            var minutes = Math.floor(window.competeData.timeLeft / 60);
+            var seconds = window.competeData.timeLeft % 60;
+            display.textContent = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+            
+            window.competeData.timeLeft--;
+            
+            if (window.competeData.timeLeft < 0) {
+                clearInterval(window.competeData.timerInterval);
+                endCompetition();
+            } else if (window.competeData.timeLeft < 60) {
+                display.style.color = '#ff0000';
+                document.getElementById('competeStatus').textContent = 'FINAL MINUTE! 🔥';
+            } else if (window.competeData.timeLeft < 300) {
+                display.style.color = '#ff8800';
+                document.getElementById('competeStatus').textContent = 'Less than 5 minutes left!';
+            }
+        }
+        
+        updateTimer();
+        window.competeData.timerInterval = setInterval(updateTimer, 1000);
+    }
+    
+    function endCompetition() {
+        window.competeData.isActive = false;
+        
+        // Find winner
+        var winner = window.competeData.players[0];
+        for (var i = 1; i < window.competeData.players.length; i++) {
+            if (window.competeData.players[i].score > winner.score) {
+                winner = window.competeData.players[i];
+            }
+        }
+        
+        // Show results
+        document.getElementById('competeActive').style.display = 'none';
+        document.getElementById('competeResults').style.display = 'block';
+        
+        document.getElementById('competeWinner').textContent = 'Ã°ÂÂÂ ' + winner.name + ' WINS with ' + winner.score + ' points! Ã°ÂÂÂ';
+        
+        // Show all scores
+        var sortedPlayers = window.competeData.players.slice().sort(function(a, b) {
+            return b.score - a.score;
+        });
+        
+        var html = '<div style="margin-top: 20px;">';
+        for (var i = 0; i < sortedPlayers.length; i++) {
+            var player = sortedPlayers[i];
+            var emoji = i === 0 ? 'Ã°ÂÂ¥Â' : i === 1 ? 'Ã°ÂÂ¥Â' : i === 2 ? 'Ã°ÂÂ¥Â' : (i + 1) + '.';
+            html += '<div style="display: flex; justify-content: space-between; padding: 15px; margin-bottom: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; font-size: 1.1em;">';
+            html += '<span style="color: #00ffff; font-weight: bold;">' + emoji + ' ' + player.name + '</span>';
+            html += '<span style="color: #ffff00; font-weight: bold;">' + player.score + ' points</span>';
+            html += '</div>';
+        }
+        html += '</div>';
+        
+        document.getElementById('competeFinalScores').innerHTML = html;
+        
+        // Trigger install popup check
+        checkAndShowInstallPopup();
+    }
+    
+    function resetCompeteMode() {
+        // Clear any intervals
+        if (window.competeData.timerInterval) {
+            clearInterval(window.competeData.timerInterval);
+        }
+        
+        // Reset data
+        window.competeData.playerCount = 0;
+        window.competeData.players = [];
+        window.competeData.currentPlayerIndex = 0;
+        window.competeData.timeLeft = 1800;
+        window.competeData.isActive = false;
+        
+        // Reset UI
+        document.getElementById('competeSetup').style.display = 'block';
+        document.getElementById('competeActive').style.display = 'none';
+        document.getElementById('competeResults').style.display = 'none';
+        document.getElementById('competePlayerNames').style.display = 'none';
+        document.getElementById('competeTimer').style.color = '#ffff00';
+        document.getElementById('competeStatus').textContent = 'Competition in progress...';
+    }
+    
+    function shareCompeteResults() {
+        // Get winner
+        var sortedPlayers = window.competeData.players.slice().sort(function(a, b) {
+            return b.score - a.score;
+        });
+        
+        var shareText = 'Ã°ÂÂÂ Fun in Bars Competition Results!\n\n';
+        for (var i = 0; i < sortedPlayers.length; i++) {
+            var emoji = i === 0 ? 'Ã°ÂÂ¥Â' : i === 1 ? 'Ã°ÂÂ¥Â' : i === 2 ? 'Ã°ÂÂ¥Â' : 'Ã°ÂÂÂ';
+            shareText += emoji + ' ' + sortedPlayers[i].name + ': ' + sortedPlayers[i].score + ' points\n';
+        }
+        shareText += '\nTry it yourself: [Your App URL]';
+        
+        // Try to use Web Share API
+        if (navigator.share) {
+            navigator.share({
+                title: 'Fun in Bars Competition Results',
+                text: shareText
+            }).catch(function(err) {
+                // Fallback: copy to clipboard
+                copyToClipboard(shareText);
+            });
+        } else {
+            // Fallback: copy to clipboard
+            copyToClipboard(shareText);
+        }
+    }
+    
+    function copyToClipboard(text) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        alert('Results copied to clipboard! Share with your friends!');
+    }
+    
+    function setPlayerCount(count) {
+        window.rouletteData.playerCount = count;
+        window.rouletteData.playerNames = [];
+        
+        // Generate name input fields
+        var nameInputsDiv = document.getElementById('nameInputs');
+        nameInputsDiv.innerHTML = '';
+        
+        for (var i = 1; i <= count; i++) {
+            var inputDiv = document.createElement('div');
+            inputDiv.style.cssText = 'display: flex; align-items: center; gap: 10px;';
+            inputDiv.innerHTML = '<span style="color: #ff0080; min-width: 80px; font-weight: bold;">Player ' + i + ':</span><input type="text" id="playerName' + i + '" placeholder="Enter name..." style="flex: 1; padding: 12px; background: rgba(0, 255, 255, 0.1); border: 2px solid #00ffff; border-radius: 10px; color: white; font-size: 1em;">';
+            nameInputsDiv.appendChild(inputDiv);
+        }
+        
+        // Show name entry screen
+        document.getElementById('playerCountSection').style.display = 'none';
+        document.getElementById('playerNamesSection').style.display = 'block';
+    }
+    
+    function startRoulette() {
+        // Collect names from inputs
+        for (var i = 1; i <= window.rouletteData.playerCount; i++) {
+            var nameInput = document.getElementById('playerName' + i);
+            var name = nameInput.value.trim();
+            if (name) {
+                window.rouletteData.playerNames.push(name);
+            } else {
+                window.rouletteData.playerNames.push('Player ' + i);
+            }
+        }
+        
+        // Hide name section, show spinner
+        document.getElementById('playerNamesSection').style.display = 'none';
+        document.getElementById('spinnerSection').style.display = 'block';
+
+        window.rouletteData.currentStep = 0;
+        document.getElementById('spinnerTitle').textContent = 'Step 1: What line?';
+        document.getElementById('spinBtn').style.display = 'block';
+        document.getElementById('nextBtn').style.display = 'none';
+    }
+    
+    function skipNames() {
+        // Use default names
+        window.rouletteData.playerNames = [];
+        for (var i = 1; i <= window.rouletteData.playerCount; i++) {
+            window.rouletteData.playerNames.push('Player ' + i);
+        }
+        
+        // Hide name section, show spinner
+        document.getElementById('playerNamesSection').style.display = 'none';
+        document.getElementById('spinnerSection').style.display = 'block';
+        window.rouletteData.currentStep = 0;
+        document.getElementById('spinnerTitle').textContent = 'Step 1: What line?';
+        document.getElementById('spinBtn').style.display = 'block';
+        document.getElementById('nextBtn').style.display = 'none';
+    }
+    
+    function spinNext() {
+        var btn = document.getElementById('spinBtn');
+        btn.disabled = true;
+        btn.textContent = 'SPINNING...';
+        
+        var display = document.getElementById('spinnerDisplay');
+        var step = window.rouletteData.currentStep;
+        var options = [];
+        
+        if (step === 0) {
+            // Spin for opening line
+            options = window.OPENING_LINES.slice();
+        } else if (step === 1) {
+            // Spin for target
+            options = window.rouletteData.targets.slice();
+        } else if (step === 2) {
+            // Spin for time
+            options = ['1 minute', '2 minutes', '3 minutes', '4 minutes', '5 minutes'];
+        } else if (step === 3) {
+            // Spin for player (NOW LAST!) - use actual names
+            options = window.rouletteData.playerNames.slice();
+        }
+        
+        // Animate spinning
+        var spinCount = 0;
+        var spinInterval = setInterval(function() {
+            display.textContent = options[Math.floor(Math.random() * options.length)];
+            spinCount++;
+            if (spinCount > 20) {
+                clearInterval(spinInterval);
+                var finalChoice = options[Math.floor(Math.random() * options.length)];
+                display.textContent = finalChoice;
+                
+                // Save the result
+                if (step === 0) {
+                    window.rouletteData.selectedLine = finalChoice;
+                } else if (step === 1) {
+                    window.rouletteData.selectedTarget = finalChoice;
+                } else if (step === 2) {
+                    window.rouletteData.selectedTime = parseInt(finalChoice.split(' ')[0]) * 60; // Convert to seconds
+                } else if (step === 3) {
+                    window.rouletteData.selectedPlayer = finalChoice;
+                    // Pause for 2 seconds to let the name be seen before showing results
+                    setTimeout(function() {
+                        showRouletteResults();
+                    }, 2000);
+                    return;
+                }
+                
+                // Show NEXT button after spin completes
+                document.getElementById('spinBtn').style.display = 'none';
+                document.getElementById('nextBtn').style.display = 'block';
+            }
+        }, 100);
+    }
+    
+    function goToNextStep() {
+        window.rouletteData.currentStep++;
+        var step = window.rouletteData.currentStep;
+        
+        document.getElementById('spinnerDisplay').textContent = '🎱';
+        document.getElementById('spinBtn').disabled = false;
+        document.getElementById('spinBtn').textContent = '🎱 SPIN';
+        document.getElementById('spinBtn').style.display = 'block';
+        document.getElementById('nextBtn').style.display = 'none';
+        
+        if (step === 1) {
+            document.getElementById('spinnerTitle').textContent = 'Step 2: Who to approach?';
+        } else if (step === 2) {
+            document.getElementById('spinnerTitle').textContent = 'Step 3: Time to complete?';
+        } else if (step === 3) {
+            document.getElementById('spinnerTitle').textContent = 'Step 4: Who will try?';
+        }
+    }
+    
+    function showRouletteResults() {
+        document.getElementById('spinnerSection').style.display = 'none';
+        document.getElementById('resultsSection').style.display = 'block';
+        document.getElementById('resultPlayer').textContent = window.rouletteData.selectedPlayer;
+        document.getElementById('resultLine').textContent = window.rouletteData.selectedLine;
+        document.getElementById('resultTarget').textContent = window.rouletteData.selectedTarget;
+        document.getElementById('resultTime').textContent = Math.floor(window.rouletteData.selectedTime / 60) + ' minute' + (window.rouletteData.selectedTime > 60 ? 's' : '');
+        
+        // Start countdown
+        startRouletteCountdown();
+    }
+    
+    function startRouletteCountdown() {
+        var timeLeft = window.rouletteData.selectedTime;
+        var display = document.getElementById('countdownDisplay');
+        
+        function updateDisplay() {
+            var minutes = Math.floor(timeLeft / 60);
+            var seconds = timeLeft % 60;
+            display.textContent = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+            
+            // Change color as time runs low
+            if (timeLeft <= 30) {
+                display.style.color = '#ff0080';
+            } else if (timeLeft <= 60) {
+                display.style.color = '#ff8800';
+            } else {
+                display.style.color = '#ffff00';
+            }
+        }
+        
+        updateDisplay();
+        
+        window.rouletteData.countdownInterval = setInterval(function() {
+            timeLeft--;
+            updateDisplay();
+            
+            if (timeLeft <= 0) {
+                clearInterval(window.rouletteData.countdownInterval);
+                display.textContent = '⏰ TIME UP!';
+                display.style.color = '#ff0000';
+            }
+        }, 1000);
+    }
+    
+    function resetRoulette() {
+        if (window.rouletteData.countdownInterval) {
+            clearInterval(window.rouletteData.countdownInterval);
+        }
+        
+        // Trigger install popup check when starting a new round
+        checkAndShowInstallPopup();
+        
+        window.rouletteData.currentStep = 0;
+        document.getElementById('resultsSection').style.display = 'none';
+        
+        // Skip player count if already set - go straight to spinner
+        if (window.rouletteData.playerCount > 0) {
+            document.getElementById('playerCountSection').style.display = 'none';
+            document.getElementById('spinnerSection').style.display = 'block';
+            document.getElementById('spinnerTitle').textContent = 'Step 1: What line?';
+        } else {
+            document.getElementById('playerCountSection').style.display = 'block';
+            document.getElementById('spinnerSection').style.display = 'none';
+        }
+        
+        document.getElementById('spinnerDisplay').textContent = '🎱';
+        document.getElementById('spinBtn').disabled = false;
+        document.getElementById('spinBtn').textContent = '🎱 SPIN';
+        document.getElementById('spinBtn').style.display = 'block';
+        document.getElementById('nextBtn').style.display = 'none';
+        document.getElementById('countdownDisplay').style.color = '#ffff00';
+    }
+    
+    function resetRouletteToStart() {
+        if (window.rouletteData.countdownInterval) {
+            clearInterval(window.rouletteData.countdownInterval);
+        }
+        // Reset player count and names
+        window.rouletteData.playerCount = 0;
+        window.rouletteData.playerNames = [];
+        window.rouletteData.currentStep = 0;
+        
+        // Show player count screen, hide others
+        document.getElementById('playerCountSection').style.display = 'block';
+        document.getElementById('playerNamesSection').style.display = 'none';
+        document.getElementById('spinnerSection').style.display = 'none';
+        document.getElementById('resultsSection').style.display = 'none';
+        
+        // Reset spinner display
+        document.getElementById('spinnerDisplay').textContent = '🎱';
+        document.getElementById('spinBtn').disabled = false;
+        document.getElementById('spinBtn').textContent = '🎱 SPIN';
+        document.getElementById('spinBtn').style.display = 'block';
+        document.getElementById('nextBtn').style.display = 'none';
+        document.getElementById('countdownDisplay').style.color = '#ffff00';
+    }
+    
+    // Install Popup Functions
+    let deferredPrompt;
+    
+    window.addEventListener('beforeinstallprompt', function(e) {
+        e.preventDefault();
+        deferredPrompt = e;
+    });
+    
+    function checkAndShowInstallPopup() {
+        // Show popup once per user (permanently stored)
+        if (!sessionStorage.getItem('installPopupShown') && !localStorage.getItem('installPopupDismissed')) {
+            sessionStorage.setItem('installPopupShown', 'true');
+            setTimeout(function() {
+                var popup = document.getElementById('installPopup');
+                if (popup) {
+                    popup.style.display = 'flex';
+                }
+            }, 500);
+        }
+    }
+    
+    function installFromPopup() {
+        console.log('installFromPopup called');
+        var popup = document.getElementById('installPopup');
+        
+        if (deferredPrompt) {
+            console.log('Using deferredPrompt (Android)');
+            // Show native install prompt (Android Chrome)
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(function(choiceResult) {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('App installed');
+                }
+                deferredPrompt = null;
+                popup.style.display = 'none';
+            });
+        } else {
+            console.log('No deferredPrompt - showing instructions');
+            // Show instructions inside the popup
+            var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            console.log('Is iOS:', isIOS);
+            
+            var popupContent = popup.querySelector('div > div');
+            if (isIOS) {
+                console.log('Showing iOS instructions in popup');
+                popupContent.innerHTML = '<div style="text-align: center; margin-bottom: 20px;"><div style="font-size: 4em; margin-bottom: 10px;">Ã°ÂÂÂ±</div><h2 style="color: #00ffff; margin: 0 0 10px 0; font-size: 1.8em;">How to Install</h2></div><div style="background: rgba(0, 255, 255, 0.1); border: 1px solid #00ffff; border-radius: 10px; padding: 20px; margin-bottom: 20px; text-align: left;"><div style="color: white; font-size: 1.1em; line-height: 1.8;"><strong style="color: #ffff00;">Step 1:</strong> Tap the Share button <span style="font-size: 1.5em;">Ã¢Â¬ÂÃ¯Â¸Â</span> at the bottom<br><br><strong style="color: #ffff00;">Step 2:</strong> Scroll down and tap "Add to Home Screen"<br><br><strong style="color: #ffff00;">Step 3:</strong> Tap "Add"<br><br><strong style="color: #00ffff;">Ã¢ÂÂ</strong> The app will appear on your home screen!</div></div><button onclick="dismissPopup()" style="width: 100%; background: #ff0080; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 1.1em; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 0, 128, 0.4);">Got It!</button>';
+            } else {
+                console.log('Showing generic instructions in popup');
+                popupContent.innerHTML = '<div style="text-align: center; margin-bottom: 20px;"><div style="font-size: 4em; margin-bottom: 10px;">Ã°ÂÂÂ±</div><h2 style="color: #00ffff; margin: 0 0 10px 0; font-size: 1.8em;">How to Install</h2></div><div style="background: rgba(0, 255, 255, 0.1); border: 1px solid #00ffff; border-radius: 10px; padding: 20px; margin-bottom: 20px; text-align: left;"><div style="color: white; font-size: 1.1em; line-height: 1.8;"><strong style="color: #ffff00;">Step 1:</strong> Tap your browser menu <span style="font-size: 1.3em;">Ã¢ÂÂ®</span> or <span style="font-size: 1.3em;">Ã¢ÂÂ¯</span><br><br><strong style="color: #ffff00;">Step 2:</strong> Select "Add to Home Screen" or "Install App"<br><br><strong style="color: #ffff00;">Step 3:</strong> Tap "Add" or "Install"<br><br><strong style="color: #00ffff;">Ã¢ÂÂ</strong> The app will appear on your home screen!</div></div><button onclick="dismissPopup()" style="width: 100%; background: #ff0080; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 1.1em; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 0, 128, 0.4);">Got It!</button>';
+            }
+            // Mark as dismissed after showing instructions
+            localStorage.setItem('installPopupDismissed', 'true');
+        }
+    }
+    
+    function dismissPopup() {
+        document.getElementById('installPopup').style.display = 'none';
+        // Permanently dismiss - won't show again on this device
+        localStorage.setItem('installPopupDismissed', 'true');
+    }
+    
+    // ============================================
+    // COMPETE MODE - Solo Independent Competition
+    // ============================================
+    
+    window.competeData = {
+        playerName: '',
+        score: 0,
+        completed: 0,
+        skipped: 0,
+        currentChallengeIndex: 0,
+        timeLimit: 300, // 5 minutes in seconds (default)
+        timeRemaining: 300,
+        timerInterval: null,
+        isActive: false,
+        challenges: [
+            // Easy Challenges (Quick completions)
+            "Say hi to someone at the bar",
+            "Compliment someone's outfit",
+            "Ask someone what they're drinking",
+            "High-five a stranger",
+            "Ask someone for the time",
+            "Compliment the bartender",
+            "Ask someone where they're from",
+            "Share a fun fact about yourself",
+            "Ask someone about their weekend plans",
+            "Introduce yourself to someone new",
+            
+            // Medium Challenges (Slightly bolder)
+            "Ask someone for their phone number",
+            "Tell someone a joke",
+            "Ask someone their most embarrassing story",
+            "Compliment someone's laugh",
+            "Ask someone to dance",
+            "Guess someone's profession",
+            "Ask about someone's tattoos (if visible)",
+            "Share your craziest bar story",
+            "Ask someone their go-to karaoke song",
+            "Recommend a drink to someone",
+            
+            // Harder Challenges (More creative)
+            "Do your best celebrity impression",
+            "Show someone a photo on your phone and explain why it's funny",
+            "Ask someone to teach you a skill",
+            "Share your unpopular opinion",
+            "Challenge someone to rock-paper-scissors",
+            "Ask someone their most controversial food take",
+            "Do a 10-second dance move",
+            "Sing one line of a song",
+            "Make someone laugh within 30 seconds",
+            "Ask the group next to you what they're celebrating"
+        ]
+    };
+    
+    function resetCompeteMode() {
+        // Stop timer if running
+        if (window.competeData.timerInterval) {
+            clearInterval(window.competeData.timerInterval);
+        }
+        
+        // Shuffle challenges
+        var shuffled = window.competeData.challenges.sort(function() { return 0.5 - Math.random(); });
+        
+        // Reset data
+        window.competeData = {
+            playerName: '',
+            score: 0,
+            completed: 0,
+            skipped: 0,
+            currentChallengeIndex: 0,
+            timeLimit: 300,
+            timeRemaining: 300,
+            timerInterval: null,
+            isActive: false,
+            challenges: shuffled
+        };
+        
+        // Show setup, hide others
+        document.getElementById('competeSetup').style.display = 'block';
+        document.getElementById('competeActive').style.display = 'none';
+        document.getElementById('competeResults').style.display = 'none';
+        
+        // Clear name input
+        document.getElementById('competeSoloName').value = '';
+    }
+    
+    
+    function setCompeteTime(seconds) {
+        window.competeData.timeLimit = seconds;
+        window.competeData.timeRemaining = seconds;
+        
+        // Update button highlighting
+        var buttons = document.querySelectorAll('.compete-time-btn');
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].style.background = '';
+            buttons[i].textContent = buttons[i].textContent.replace(' Ã¢ÂÂ', '');
+        }
+        
+        // Highlight selected button
+        event.target.style.background = '#ff0080';
+        if (!event.target.textContent.includes('Ã¢ÂÂ')) {
+            event.target.textContent += ' Ã¢ÂÂ';
+        }
+        
+        // Hide custom input if showing
+        document.getElementById('customTimeInput').style.display = 'none';
+        
+        // Update start button text
+        var minutes = Math.floor(seconds / 60);
+        document.getElementById('startCompeteBtn').textContent = 'Ã°ÂÂÂ START COMPETITION (' + minutes + ' MIN)';
+    }
+    
+    function showCustomTime() {
+        // Show custom time input
+        document.getElementById('customTimeInput').style.display = 'block';
+        
+        // Unhighlight all buttons
+        var buttons = document.querySelectorAll('.compete-time-btn');
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].style.background = '';
+            buttons[i].textContent = buttons[i].textContent.replace(' Ã¢ÂÂ', '');
+        }
+        
+        // Highlight custom button
+        event.target.style.background = '#ff0080';
+    }
+    
+    function setCustomTime() {
+        var minutes = parseInt(document.getElementById('customTimeMinutes').value);
+        
+        // Validate
+        if (isNaN(minutes) || minutes < 5 || minutes > 120) {
+            alert('Please enter a time between 5 and 120 minutes');
+            return;
+        }
+        
+        var seconds = minutes * 60;
+        window.competeData.timeLimit = seconds;
+        window.competeData.timeRemaining = seconds;
+        
+        // Update start button
+        document.getElementById('startCompeteBtn').textContent = 'Ã°ÂÂÂ START COMPETITION (' + minutes + ' MIN)';
+        
+        // Add checkmark to custom button
+        var customBtn = document.querySelectorAll('.compete-time-btn')[5]; // Last button
+        if (!customBtn.textContent.includes('Ã¢ÂÂ')) {
+            customBtn.textContent = 'Custom Ã¢ÂÂ';
+        }
+    }
+    
+    function startSoloCompetition() {
+        // Get player name
+        var nameInput = document.getElementById('competeSoloName');
+        window.competeData.playerName = nameInput.value.trim() || 'Player';
+        
+        // Shuffle challenges
+        window.competeData.challenges = window.competeData.challenges.sort(function() { return 0.5 - Math.random(); });
+        
+        // Start timer
+        window.competeData.isActive = true;
+        startCompeteTimer();
+        
+        // Show active competition screen
+        document.getElementById('competeSetup').style.display = 'none';
+        document.getElementById('competeActive').style.display = 'block';
+        
+        // Display player name
+        document.getElementById('competePlayerName').textContent = window.competeData.playerName.toUpperCase();
+        
+        // Show first challenge
+        showNextChallenge();
+        
+        // Update displays
+        updateCompeteDisplay();
+    }
+    
+    function showNextChallenge() {
+        var challenge = window.competeData.challenges[window.competeData.currentChallengeIndex % window.competeData.challenges.length];
+        document.getElementById('competeChallengeText').textContent = challenge;
+        window.competeData.currentChallengeIndex++;
+    }
+    
+    function completeChallenge() {
+        // Add point
+        window.competeData.score++;
+        window.competeData.completed++;
+        
+        // Visual feedback
+        var scoreDiv = document.getElementById('competeScore');
+        scoreDiv.style.transform = 'scale(1.2)';
+        scoreDiv.style.color = '#00ff00';
+        setTimeout(function() {
+            scoreDiv.style.transform = 'scale(1)';
+            scoreDiv.style.color = '#ffd700';
+        }, 300);
+        
+        // Vibrate if supported
+        if (navigator.vibrate) {
+            navigator.vibrate(200);
+        }
+        
+        // Show next challenge
+        showNextChallenge();
+        
+        // Update displays
+        updateCompeteDisplay();
+    }
+    
+    function skipChallenge() {
+        // PENALTY: Subtract 1 point (minimum 0)
+        window.competeData.score = Math.max(0, window.competeData.score - 1);
+        window.competeData.skipped++;
+        
+        // Visual feedback - red flash
+        var challengeDiv = document.getElementById('competeChallenge');
+        var scoreDiv = document.getElementById('competeScore');
+        challengeDiv.style.border = '3px solid #ff0000';
+        scoreDiv.style.color = '#ff0000';
+        
+        setTimeout(function() {
+            challengeDiv.style.border = '2px solid #ff0080';
+            scoreDiv.style.color = '#ffd700';
+        }, 500);
+        
+        // Show next challenge
+        showNextChallenge();
+        
+        // Update displays
+        updateCompeteDisplay();
+    }
+    
+    function updateCompeteDisplay() {
+        // Update score displays
+        document.getElementById('competeScore').textContent = window.competeData.score;
+        document.getElementById('competeCompleted').textContent = window.competeData.completed;
+        document.getElementById('competeSkipped').textContent = window.competeData.skipped;
+        document.getElementById('competeNetScore').textContent = window.competeData.score;
+    }
+    
+    function startCompeteTimer() {
+        window.competeData.timerInterval = setInterval(function() {
+            window.competeData.timeRemaining--;
+            
+            // Update timer display
+            var minutes = Math.floor(window.competeData.timeRemaining / 60);
+            var seconds = window.competeData.timeRemaining % 60;
+            var timeString = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+            document.getElementById('competeTimer').textContent = timeString;
+            
+            // Change color when running out of time
+            if (window.competeData.timeRemaining <= 60) {
+                document.getElementById('competeTimer').style.color = '#ff0000';
+                document.getElementById('competeStatus').textContent = 'FINAL MINUTE! 🔥';
+            } else if (window.competeData.timeRemaining <= 300) {
+                document.getElementById('competeTimer').style.color = '#ff8800';
+                document.getElementById('competeStatus').textContent = '5 minutes left - finish strong!';
+            }
+            
+            // End competition when time runs out
+            if (window.competeData.timeRemaining <= 0) {
+                endCompetition();
+            }
+        }, 1000);
+    }
+    
+    function endCompetition() {
+        // Stop timer
+        clearInterval(window.competeData.timerInterval);
+        window.competeData.isActive = false;
+        
+        // Hide active screen
+        document.getElementById('competeActive').style.display = 'none';
+        
+        // Show results
+        document.getElementById('competeResults').style.display = 'block';
+        
+        // Display final results
+        document.getElementById('competeFinalName').textContent = window.competeData.playerName;
+        document.getElementById('competeFinalScore').textContent = window.competeData.score;
+        document.getElementById('resultCompleted').textContent = window.competeData.completed;
+        document.getElementById('resultSkipped').textContent = window.competeData.skipped;
+        
+        // Trigger install popup after competition
+        checkAndShowInstallPopup();
+    }
+    
+    function shareCompeteScore() {
+        var shareText = 'Ã°ÂÂÂ Fun in Bars Competition!\n\n';
+        shareText += window.competeData.playerName + ' scored: ' + window.competeData.score + ' points!\n';
+        shareText += 'Ã¢ÂÂ
+ Completed: ' + window.competeData.completed + '\n';
+        shareText += 'Ã¢ÂÂ­Ã¯Â¸Â Skipped: ' + window.competeData.skipped + '\n\n';
+        shareText += 'Can you beat my score? Download Fun in Bars!';
+        
+        // Try to share via Web Share API
+        if (navigator.share) {
+            navigator.share({
+                title: 'Fun in Bars Competition Score',
+                text: shareText
+            }).catch(function(err) {
+                // If share fails, copy to clipboard
+                copyToClipboard(shareText);
+            });
+        } else {
+            // Fallback: copy to clipboard
+            copyToClipboard(shareText);
+        }
+    }
+    
+    function copyToClipboard(text) {
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Score copied to clipboard! Share with your friends!');
+            }).catch(function() {
+                alert('Your score:\n\n' + text);
+            });
+        } else {
+            alert('Your score:\n\n' + text);
+        }
+    }
+    
+    // Make info icons toggleable on click
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize retention features
+        checkAndUpdateStreak();
+        loadDailyDare();
+        loadWeeklyOpener();
+        
+        const infoIcons = document.querySelectorAll('.info-icon');
+        
+        infoIcons.forEach(function(icon) {
+            icon.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                // Close all other tooltips
+                infoIcons.forEach(function(otherIcon) {
+                    if (otherIcon !== icon) {
+                        otherIcon.classList.remove('active');
+                    }
+                });
+                
+                // Toggle this tooltip
+                this.classList.toggle('active');
+            });
+        });
+        
+        // Close tooltip when clicking anywhere else
+        document.addEventListener('click', function() {
+            infoIcons.forEach(function(icon) {
+                icon.classList.remove('active');
+            });
+        });
+    });
+</script>
+
+<!-- PWA Service Worker Registration -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(function(registration) {
+                    console.log('ServiceWorker registered:', registration.scope);
+                })
+                .catch(function(err) {
+                    console.log('ServiceWorker registration failed:', err);
+                });
+        });
+    }
+</script>
+</body>
+</html>
