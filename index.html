@@ -741,6 +741,7 @@
         .tab-icon {
             font-size: 20px;
             margin-bottom: 2px;
+            filter: grayscale(100%);
         }
 
         .tab-label {
@@ -1099,12 +1100,6 @@
                 <h3 style="color: #000000; text-align: left; margin-bottom: 20px;">Solo Competition</h3>
                 <p style="text-align: left; color: #000000; margin-bottom: 30px;">Everyone starts at the same time on their own phone. Complete as many challenges as you can, then compare scores!</p>
                 
-                <!-- Player Name Input -->
-                <div style="margin-bottom: 20px;">
-                    <label style="color: #000000; font-weight: bold; display: block; margin-bottom: 10px; text-align: left;">Your Name:</label>
-                    <input type="text" id="competeSoloName" placeholder="Enter your name..." style="width: 100%; padding: 12px 16px; background: #F2F2F7; border: none; border-radius: 10px; color: #000000; font-size: 17px; box-sizing: border-box; font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;">
-                </div>
-                
                 <!-- Time Selection -->
                 <div style="margin-bottom: 30px;">
                     <label style="color: #000000; font-weight: bold; display: block; margin-bottom: 10px; text-align: left;">Competition Time:</label>
@@ -1140,7 +1135,7 @@
                 
                 <!-- Personal Score Display -->
                 <div style="background: #F2F2F7; border: 1px solid #007AFF; border-radius: 15px; padding: 20px; margin-bottom: 30px; text-align: center;">
-                    <div style="color: #000000; font-size: 1.2em; margin-bottom: 5px;" id="competePlayerName">YOUR NAME</div>
+                    <div style="color: #000000; font-size: 1.2em; margin-bottom: 5px;" id="competePlayerName">PLAYER</div>
                     <div style="font-size: 4em; color: #000000; font-weight: 900;" id="competeScore">0</div>
                     <div style="color: #000000; font-size: 1em; margin-top: 5px;">NET SCORE</div>
                 </div>
@@ -2282,9 +2277,6 @@
             document.getElementById('competeActive').style.display = 'none';
             document.getElementById('competeResults').style.display = 'none';
             
-            // Clear name input
-            document.getElementById('competeSoloName').value = '';
-            
             // Reset time button selection
             var buttons = document.querySelectorAll('.compete-time-btn');
             for (var i = 0; i < buttons.length; i++) {
@@ -2361,9 +2353,8 @@
         }
         
         function startSoloCompetition() {
-            // Get player name
-            var nameInput = document.getElementById('competeSoloName');
-            window.competeData.playerName = nameInput.value.trim() || 'Player';
+            // Set player name
+            window.competeData.playerName = 'Player';
             
             // Shuffle challenges
             window.competeData.challenges = window.competeData.challenges.sort(function() { return 0.5 - Math.random(); });
@@ -2585,11 +2576,11 @@
     <!-- iOS Tab Bar -->
     <div class="tab-bar">
         <button class="tab-btn active" onclick="var btns=document.querySelectorAll('.tab-btn'); for(var i=0;i<btns.length;i++)btns[i].classList.remove('active'); this.classList.add('active'); var phases=document.querySelectorAll('.phase-content'); for(var i=0;i<phases.length;i++)phases[i].classList.remove('active'); document.getElementById('roulette').classList.add('active'); resetRouletteToStart();">
-            <div class="tab-icon">�</div>
+            <div class="tab-icon">🔄</div>
             <div class="tab-label">Roulette</div>
         </button>
         <button class="tab-btn challenge-tab" onclick="var btns=document.querySelectorAll('.tab-btn'); for(var i=0;i<btns.length;i++)btns[i].classList.remove('active'); this.classList.add('active'); var phases=document.querySelectorAll('.phase-content'); for(var i=0;i<phases.length;i++)phases[i].classList.remove('active'); document.getElementById('challenge-wheel').classList.add('active');">
-            <div class="tab-icon">🎯</div>
+            <div class="tab-icon">🔥</div>
             <div class="tab-label">Challenge</div>
         </button>
         <button class="tab-btn" onclick="var btns=document.querySelectorAll('.tab-btn'); for(var i=0;i<btns.length;i++)btns[i].classList.remove('active'); this.classList.add('active'); var phases=document.querySelectorAll('.phase-content'); for(var i=0;i<phases.length;i++)phases[i].classList.remove('active'); document.getElementById('compete').classList.add('active'); resetCompeteMode();">
@@ -2597,7 +2588,7 @@
             <div class="tab-label">Compete</div>
         </button>
         <button class="tab-btn" onclick="var btns=document.querySelectorAll('.tab-btn'); for(var i=0;i<btns.length;i++)btns[i].classList.remove('active'); this.classList.add('active'); var phases=document.querySelectorAll('.phase-content'); for(var i=0;i<phases.length;i++)phases[i].classList.remove('active'); document.getElementById('radar-chart').classList.add('active');">
-            <div class="tab-icon">📡</div>
+            <div class="tab-icon">🔍</div>
             <div class="tab-label">Radar</div>
         </button>
         <button class="tab-btn" onclick="var btns=document.querySelectorAll('.tab-btn'); for(var i=0;i<btns.length;i++)btns[i].classList.remove('active'); this.classList.add('active'); var phases=document.querySelectorAll('.phase-content'); for(var i=0;i<phases.length;i++)phases[i].classList.remove('active'); document.getElementById('boldness').classList.add('active');">
