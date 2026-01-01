@@ -1180,36 +1180,40 @@
             </div>
             
             <!-- Step 3: Results -->
-            <div id="competeResults" style="display: none; max-width: 500px; margin: 30px auto;">
-                <div style="background: #F2F2F7; border: 1px solid #007AFF; border-radius: 15px; padding: 30px; margin-bottom: 20px;">
-                    <h2 style="color: #000000; text-align: center; margin-bottom: 20px;">TIME'S UP!</h2>
+            <div id="competeResults" style="display: none; max-width: 500px; margin: 20px auto;">
+                <div style="background: #F2F2F7; border: 1px solid #007AFF; border-radius: 15px; padding: 20px; margin-bottom: 15px;">
+                    <h2 style="color: #000000; text-align: center; margin-bottom: 15px;">TIME'S UP!</h2>
                     
                     <!-- Player's Final Score -->
-                    <div style="text-align: center; margin-bottom: 30px;">
-                        <div style="color: #000000; font-size: 1.3em; margin-bottom: 10px;" id="competeFinalName"></div>
-                        <div style="font-size: 5em; color: #000000; font-weight: 900;" id="competeFinalScore">0</div>
-                        <div style="color: #000000; font-size: 1.2em;">COMPLETIONS</div>
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="color: #000000; font-size: 1.1em; margin-bottom: 8px;" id="competeFinalName"></div>
+                        <div style="font-size: 4em; color: #000000; font-weight: 900;" id="competeFinalScore">0</div>
+                        <div style="color: #000000; font-size: 1em;">COMPLETIONS</div>
                     </div>
                     
                     <!-- Stats Breakdown -->
-                    <div style="background: #F2F2F7; border: 1px solid #007AFF; border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                    <div style="background: #F2F2F7; border: 1px solid #007AFF; border-radius: 10px; padding: 15px; margin-bottom: 15px;">
                         <h4 style="color: #000000; margin-top: 0; text-align: center;">Your Stats</h4>
-                        <div style="display: flex; justify-content: space-around; text-align: center; margin-top: 15px;">
+                        <div style="display: flex; justify-content: space-around; text-align: center; margin-top: 10px;">
                             <div>
-                                <div style="color: #000000; font-size: 2em; font-weight: bold;" id="resultCompleted">0</div>
-                                <div style="color: #000000; font-size: 0.9em;">Completed</div>
+                                <div style="color: #000000; font-size: 1.8em; font-weight: bold;" id="resultCompleted">0</div>
+                                <div style="color: #000000; font-size: 0.8em;">Completed</div>
                             </div>
                             <div>
-                                <div style="color: #000000; font-size: 2em; font-weight: bold;" id="resultSkipped">0</div>
-                                <div style="color: #000000; font-size: 0.9em;">Skipped</div>
+                                <div style="color: #000000; font-size: 1.8em; font-weight: bold;" id="resultSkipped">0</div>
+                                <div style="color: #000000; font-size: 0.8em;">Skipped</div>
+                            </div>
+                            <div>
+                                <div style="color: #000000; font-size: 1.8em; font-weight: bold;" id="resultNetScore">0</div>
+                                <div style="color: #000000; font-size: 0.8em;">Net Score</div>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Instructions -->
-                    <div style="background: #F2F2F7; border: 1px solid #007AFF; border-radius: 10px; padding: 20px; text-align: center;">
-                        <div style="color: #000000; font-size: 1.1em; margin-bottom: 10px;">Now compare scores with your friends!</div>
-                        <div style="color: #000000; font-size: 0.95em; line-height: 1.6;">Everyone show their final scores. Highest number wins!</div>
+                    <div style="background: #F2F2F7; border: 1px solid #007AFF; border-radius: 10px; padding: 15px; text-align: center; margin-bottom: 15px;">
+                        <div style="color: #000000; font-size: 1em; margin-bottom: 8px;">Now compare scores with your friends!</div>
+                        <div style="color: #000000; font-size: 0.85em; line-height: 1.4;">Everyone show their final scores. Highest number wins!</div>
                     </div>
                 </div>
                 
@@ -2492,16 +2496,19 @@
             document.getElementById('competeFinalScore').textContent = window.competeData.score;
             document.getElementById('resultCompleted').textContent = window.competeData.completed;
             document.getElementById('resultSkipped').textContent = window.competeData.skipped;
+            document.getElementById('resultNetScore').textContent = window.competeData.completed - window.competeData.skipped;
             
             // Trigger install popup after competition
             checkAndShowInstallPopup();
         }
         
         function shareCompeteScore() {
+            var netScore = window.competeData.completed - window.competeData.skipped;
             var shareText = '🏆 Fun in Bars Competition!\n\n';
             shareText += window.competeData.playerName + ' scored: ' + window.competeData.score + ' points!\n';
             shareText += '✅ Completed: ' + window.competeData.completed + '\n';
-            shareText += '⏭️ Skipped: ' + window.competeData.skipped + '\n\n';
+            shareText += '⏭️ Skipped: ' + window.competeData.skipped + '\n';
+            shareText += '📊 Net Score: ' + netScore + '\n\n';
             shareText += 'Can you beat my score? Download Fun in Bars!';
             
             // Try to share via Web Share API
